@@ -32,7 +32,7 @@ class CustomUserCreationForm(UserCreationForm):
             raise forms.ValidationError('Username faqat harf, raqam va pastki chiziqdan iborat bo\'lishi kerak.')
 
         # Reserved names check
-        reserved_names = ['admin', 'root', 'superuser', 'teamify', 'support']
+        reserved_names = ['admin', 'root', 'superuser', 'jamoa', 'support']
         if username.lower() in reserved_names:
             raise forms.ValidationError('Bu username band yoki taqiqlangan.')
 

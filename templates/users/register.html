@@ -2,32 +2,147 @@
 
 {% block content %}
 <style>
-    .auth-page-wrapper { grid-column: 1 / -1; display: flex; justify-content: center; padding: 40px 0; }
-    .auth-card { width: 100%; max-width: 680px; background: rgba(13, 17, 23, 0.6); backdrop-filter: blur(15px); border: 1px solid var(--border-subtle); border-radius: 20px; padding: 40px; box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4); }
-    .auth-section-title { font-size: 11px; font-weight: 800; color: var(--accent-blue); text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px; display: block; border-bottom: 1px solid rgba(59, 130, 246, 0.1); padding-bottom: 8px; }
-    .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
-    @media (max-width: 600px) { .form-grid { grid-template-columns: 1fr; } }
-    .elite-input-group { margin-bottom: 24px; }
-    .elite-label { display: block; color: #94a3b8; font-size: 13px; font-weight: 600; margin-bottom: 8px; }
-    .help-text { font-size: 11px; color: #64748b; margin-top: 4px; }
-    .error-text { color: var(--accent-red); font-size: 12px; margin-top: 4px; font-weight: 500; }
-    .game-selection-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 12px; background: rgba(255, 255, 255, 0.02); padding: 16px; border-radius: 12px; border: 1px solid var(--border-subtle); }
-    .game-checkbox-item { display: flex; align-items: center; gap: 10px; font-size: 13px; color: #cbd5e1; cursor: pointer; padding: 8px; border-radius: 8px; transition: 0.2s; }
-    .game-checkbox-item:hover { background: rgba(255, 255, 255, 0.05); }
-    .game-checkbox-item input { width: 18px; height: 18px; margin-bottom: 0; }
-    .submit-btn { width: 100%; background: var(--accent-blue); color: white; border: none; padding: 16px; border-radius: 12px; font-weight: 700; font-size: 16px; cursor: pointer; transition: 0.3s; margin-top: 20px; }
-    .submit-btn:hover { opacity: 0.9; transform: translateY(-2px); }
-    .password-field { width: 100%; background: rgba(255, 255, 255, 0.03); border: 1px solid var(--border-subtle); padding: 12px; border-radius: 8px; color: white; outline: none; transition: 0.3s; }
+    .auth-page-wrapper {
+        grid-column: 1 / -1;
+        display: flex;
+        justify-content: center;
+        padding: 40px 0;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 680px;
+        background: rgba(13, 17, 23, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-subtle);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .auth-section-title {
+        font-size: 11px;
+        font-weight: 800;
+        color: var(--accent-blue);
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 20px;
+        display: block;
+        border-bottom: 1px solid rgba(59, 130, 246, 0.1);
+        padding-bottom: 8px;
+    }
+
+    .form-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 20px;
+    }
+
+    @media (max-width: 600px) {
+        .form-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .elite-input-group {
+        margin-bottom: 24px;
+    }
+
+    .elite-label {
+        display: block;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .help-text {
+        font-size: 11px;
+        color: #64748b;
+        margin-top: 4px;
+    }
+
+    .error-text {
+        color: var(--accent-red);
+        font-size: 12px;
+        margin-top: 4px;
+        font-weight: 500;
+    }
+
+    .game-selection-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+        gap: 12px;
+        background: rgba(255, 255, 255, 0.02);
+        padding: 16px;
+        border-radius: 12px;
+        border: 1px solid var(--border-subtle);
+    }
+
+    .game-checkbox-item {
+        display: flex;
+        align-items: center;
+        gap: 10px;
+        font-size: 13px;
+        color: #cbd5e1;
+        cursor: pointer;
+        padding: 8px;
+        border-radius: 8px;
+        transition: 0.2s;
+    }
+
+    .game-checkbox-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .game-checkbox-item input {
+        width: 18px;
+        height: 18px;
+        margin-bottom: 0;
+    }
+
+    .submit-btn {
+        width: 100%;
+        background: var(--accent-blue);
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 20px;
+    }
+
+    .submit-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+
+    .password-field {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--border-subtle);
+        padding: 12px;
+        border-radius: 8px;
+        color: white;
+        outline: none;
+        transition: 0.3s;
+    }
 </style>
 
 <div class="auth-page-wrapper">
     <div class="auth-card">
         <div style="text-align: center; margin-bottom: 40px;">
             <h1 style="font-size: 28px; margin-bottom: 8px;">Ro’yxatdan o’tish</h1>
-            <p style="color: #64748b;">Teamify hamjamiyatiga xush kelibsiz</p>
+            <p style="color: #64748b;">Jamoa hamjamiyatiga xush kelibsiz</p>
         </div>
 
-        {% if form.non_field_errors %}<div style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); padding: 12px; border-radius: 8px; margin-bottom: 24px;">{% for error in form.non_field_errors %}<div class="error-text text-center">{{ error }}</div>{% endfor %}</div>{% endif %}
+        {% if form.non_field_errors %}<div
+            style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); padding: 12px; border-radius: 8px; margin-bottom: 24px;">
+            {% for error in form.non_field_errors %}<div class="error-text text-center">{{ error }}</div>{% endfor %}
+        </div>{% endif %}
 
         <form method="post">
             {% csrf_token %}
@@ -37,20 +152,25 @@
                     <div class="elite-input-group">
                         <label class="elite-label">Foydalanuvchi nomi (Username)</label>
                         {{ form.username }}
-                        {% if form.username.errors %}<div class="error-text">{{ form.username.errors.0 }}</div>{% endif %}
+                        {% if form.username.errors %}<div class="error-text">{{ form.username.errors.0 }}</div>{% endif
+                        %}
                         <div class="help-text">Faqat harf, raqam va pastki chiziq. Kamida 4 ta belgi.</div>
                     </div>
                 </div>
                 <div class="form-grid">
                     <div class="elite-input-group">
                         <label class="elite-label">Parol</label>
-                        <input type="password" name="password1" id="id_password1" required placeholder="********" class="password-field">
-                        {% if form.password1.errors %}<div class="error-text">{{ form.password1.errors.0 }}</div>{% endif %}
+                        <input type="password" name="password1" id="id_password1" required placeholder="********"
+                            class="password-field">
+                        {% if form.password1.errors %}<div class="error-text">{{ form.password1.errors.0 }}</div>{%
+                        endif %}
                     </div>
                     <div class="elite-input-group">
                         <label class="elite-label">Parolni tasdiqlash</label>
-                        <input type="password" name="password2" id="id_password2" required placeholder="********" class="password-field">
-                        {% if form.password2.errors %}<div class="error-text">{{ form.password2.errors.0 }}</div>{% endif %}
+                        <input type="password" name="password2" id="id_password2" required placeholder="********"
+                            class="password-field">
+                        {% if form.password2.errors %}<div class="error-text">{{ form.password2.errors.0 }}</div>{%
+                        endif %}
                     </div>
                 </div>
             </div>
@@ -61,13 +181,15 @@
                     <div class="elite-input-group">
                         <label class="elite-label">Gamer Nickname</label>
                         {{ form.nickname }}
-                        {% if form.nickname.errors %}<div class="error-text">{{ form.nickname.errors.0 }}</div>{% endif %}
+                        {% if form.nickname.errors %}<div class="error-text">{{ form.nickname.errors.0 }}</div>{% endif
+                        %}
                         <div class="help-text">O’yinlardagi asosiy ismingiz.</div>
                     </div>
                     <div class="elite-input-group">
                         <label class="elite-label">Asosiy Rolingiz</label>
                         {{ form.game_role }}
-                        {% if form.game_role.errors %}<div class="error-text">{{ form.game_role.errors.0 }}</div>{% endif %}
+                        {% if form.game_role.errors %}<div class="error-text">{{ form.game_role.errors.0 }}</div>{%
+                        endif %}
                     </div>
                 </div>
                 <div class="elite-input-group" style="margin-top: 10px;">
@@ -83,7 +205,8 @@
         </form>
 
         <div style="text-align: center; margin-top: 32px; color: #64748b; font-size: 14px;">
-            Hisobingiz bormi? <a href="{% url "login" %}" style="color: var(--accent-blue); font-weight: 700;">Kirish</a>
+            Hisobingiz bormi? <a href="{% url " login" %}"
+                style="color: var(--accent-blue); font-weight: 700;">Kirish</a>
         </div>
     </div>
 </div>
