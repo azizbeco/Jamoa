@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teamify</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --bg-body: #000000;
+            --bg-card: #050505;
+            /* Almost black */
+            --bg-card-hover: #0a0a0a;
+
+            --text-main: #ededed;
+            --text-muted: #737373;
+
+            --accent-blue: #3b82f6;
+            --accent-purple: #8b5cf6;
+            --accent-green: #10b981;
+            --accent-red: #ef4444;
+
+            --border-subtle: #1f1f1f;
+
+            --radius: 12px;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            font-family: 'Inter', sans-serif;
+            font-size: 15px;
+            line-height: 1.5;
+        }
+
+        /* Header */
+        header {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 12px 0;
+        }
+
+        .header-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .logo {
+            font-weight: 700;
+            font-size: 18px;
+            color: var(--text-main);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .logo span {
+            color: var(--accent-blue);
+        }
+
+        nav {
+            display: flex;
+            gap: 24px;
+        }
+
+        nav a {
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        nav a:hover,
+        nav a.active {
+            color: var(--text-main);
+        }
+
+        /* Layout */
+        .container {
+            max-width: 1250px;
+            margin: 0 auto;
+            padding: 24px 20px;
+            display: grid;
+            grid-template-columns: 280px 1fr 260px;
+            /* Wider layout with prioritize central feed */
+            gap: 48px;
+        }
+
+        .main-feed {
+            grid-column: 2;
+        }
+
+        .sidebar-left {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+
+        .sidebar-right {
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+
+        @media (max-width: 900px) {
+            .container {
+                grid-template-columns: 1fr;
+                max-width: 600px;
+            }
+
+            .sidebar-left,
+            .sidebar-right {
+                display: none;
+            }
+        }
+
+        /* Components */
+        .btn {
+            background: var(--text-main);
+            color: #000;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 99px;
+            font-weight: 600;
+            font-size: 14px;
+            cursor: pointer;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.2s;
+        }
+
+        .btn:hover {
+            opacity: 0.9;
+        }
+
+        .btn-primary {
+            background: var(--accent-blue);
+            color: white;
+        }
+
+        .btn-ghost {
+            background: transparent;
+            color: var(--text-muted);
+            padding: 6px 12px;
+            border-radius: 6px;
+            border: none !important;
+            /* Force no border */
+            box-shadow: none !important;
+        }
+
+        .btn-ghost:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-main);
+        }
+
+        .card {
+            background: var(--bg-card);
+            border: 1px solid var(--border-subtle);
+            border-radius: var(--radius);
+            padding: 20px;
+            margin-bottom: 16px;
+        }
+
+        .post-card {
+            border-bottom: 1px solid var(--border-subtle);
+            padding: 24px 0;
+        }
+
+        .post-card:last-child {
+            border-bottom: none;
+        }
+
+        /* Typography */
+        h1,
+        h2,
+        h3 {
+            color: var(--text-main);
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        p {
+            color: var(--text-muted);
+            margin-bottom: 12px;
+        }
+
+        a {
+            color: var(--text-main);
+            text-decoration: none;
+        }
+
+        /* Forms */
+        input,
+        textarea,
+        select {
+            background: #0f0f0f;
+            border: 1px solid var(--border-subtle);
+            color: var(--text-main);
+            padding: 10px 14px;
+            border-radius: 8px;
+            width: 100%;
+            font-family: inherit;
+            margin-bottom: 12px;
+            outline: none;
+        }
+
+        input:focus,
+        textarea:focus {
+            border-color: var(--accent-muted);
+        }
+
+        /* Utilities */
+        .flex {
+            display: flex;
+            align-items: center;
+        }
+
+        .gap-2 {
+            gap: 8px;
+        }
+
+        .gap-3 {
+            gap: 12px;
+        }
+
+        .justify-between {
+            justify-content: space-between;
+        }
+
+        .text-sm {
+            font-size: 13px;
+        }
+
+        .text-xs {
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            font-weight: 600;
+        }
+
+        .mute {
+            color: var(--text-muted);
+        }
+
+        .avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: #222;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="header-content">
+            <div class="flex gap-3">
+                <a href="{% url 'home' %}" class="logo">Teamify<span>.</span></a>
+            </div>
+            <nav>
+                <a href="{% url 'home' %}" class="active">Feed</a>
+                <a href="{% url 'team_list' %}">Teams</a>
+                <a href="{% url 'tournament_list' %}">Events</a>
+            </nav>
+            <style>
+                .notif-wrapper {
+                    position: relative;
+                    margin-right: 12px;
+                }
+
+                .notif-bell {
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+                    padding: 8px;
+                    border-radius: 8px;
+                    transition: 0.2s;
+                }
+
+                .notif-bell:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                }
+
+                .notif-badge {
+                    position: absolute;
+                    top: 2px;
+                    right: 2px;
+                    background: #ef4444;
+                    color: white;
+                    font-size: 10px;
+                    font-weight: 800;
+                    min-width: 16px;
+                    height: 16px;
+                    border-radius: 8px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border: 2px solid #000;
+                }
+
+                .notif-dropdown {
+                    position: absolute;
+                    top: 100%;
+                    right: 0;
+                    width: 320px;
+                    background: #0d1117;
+                    border: 1px solid #1e293b;
+                    border-radius: 12px;
+                    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.5);
+                    display: none;
+                    margin-top: 10px;
+                    z-index: 1000;
+                    overflow: hidden;
+                }
+
+                .notif-dropdown.active {
+                    display: block;
+                }
+
+                .notif-item {
+                    padding: 16px;
+                    border-bottom: 1px solid #1e293b;
+                    display: block;
+                    text-decoration: none;
+                    transition: 0.2s;
+                }
+
+                .notif-item:hover {
+                    background: rgba(255, 255, 255, 0.03);
+                }
+
+                .notif-item:last-child {
+                    border-bottom: none;
+                }
+
+                .notif-title {
+                    color: #f8fafc;
+                    font-size: 13px;
+                    margin-bottom: 4px;
+                    line-height: 1.4;
+                }
+
+                .notif-time {
+                    color: #64748b;
+                    font-size: 11px;
+                }
+
+                /* Search */
+                .search-wrapper {
+                    display: flex;
+                    align-items: center;
+                    position: relative;
+                    margin-right: 8px;
+                }
+
+                .search-form {
+                    width: 0;
+                    overflow: hidden;
+                    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                    opacity: 0;
+                }
+
+                .search-form.active {
+                    width: 200px;
+                    opacity: 1;
+                    margin-left: 8px;
+                }
+
+                .search-input {
+                    margin-bottom: 0 !important;
+                    height: 34px;
+                    background: #0d1117;
+                    border: 1px solid #1e293b;
+                    font-size: 12px;
+                    padding-right: 30px;
+                }
+
+                .search-btn {
+                    background: transparent;
+                    border: none;
+                    cursor: pointer;
+                    display: flex;
+                    align-items: center;
+                    padding: 8px;
+                    border-radius: 8px;
+                    transition: 0.2s;
+                    color: var(--text-muted);
+                }
+
+                .search-btn:hover {
+                    background: rgba(255, 255, 255, 0.05);
+                    color: var(--text-main);
+                }
+
+                .search-suggestions {
+                    position: absolute;
+                    top: 100%;
+                    left: 0;
+                    right: 0;
+                    background: #111;
+                    border: 1px solid #1e293b;
+                    border-radius: 12px;
+                    margin-top: 10px;
+                    display: none;
+                    z-index: 1001;
+                    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.8);
+                    min-width: 280px;
+                    overflow: hidden;
+                }
+
+                .suggest-group {
+                    padding: 8px 0;
+                }
+
+                .suggest-label {
+                    font-size: 10px;
+                    font-weight: 800;
+                    color: #4b5563;
+                    text-transform: uppercase;
+                    padding: 8px 16px;
+                    letter-spacing: 1px;
+                }
+
+                .suggest-item {
+                    display: flex;
+                    align-items: center;
+                    gap: 12px;
+                    padding: 10px 16px;
+                    text-decoration: none;
+                    transition: 0.2s;
+                    border-left: 2px solid transparent;
+                }
+
+                .suggest-item:hover {
+                    background: rgba(255, 255, 255, 0.03);
+                    border-left-color: var(--accent-blue);
+                }
+
+                .suggest-avatar {
+                    width: 32px;
+                    height: 32px;
+                    border-radius: 8px;
+                    background: #000;
+                    object-fit: cover;
+                    flex-shrink: 0;
+                }
+
+                .suggest-name {
+                    font-size: 13px;
+                    font-weight: 600;
+                    color: #fff;
+                    white-space: nowrap;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                }
+
+                .suggest-meta {
+                    font-size: 11px;
+                    color: #64748b;
+                }
+            </style>
+            <div class="flex gap-2">
+                <div class="search-wrapper">
+                    <button class="search-btn" id="search-toggle">
+                        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                            <circle cx="11" cy="11" r="8"></circle>
+                            <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                        </svg>
+                    </button>
+                    <form action="{% url 'search' %}" method="get" class="search-form" id="search-form">
+                        <input type="text" name="q" placeholder="Search teams, players..." class="search-input"
+                            autocomplete="off" id="search-input">
+                        <div class="search-suggestions" id="search-suggestions"></div>
+                    </form>
+                </div>
+                {% if user.is_authenticated %}
+                <div class="notif-wrapper">
+                    <button class="notif-bell" id="notif-toggle">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                            style="color: var(--text-muted); pointer-events: none;">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        {% if unread_count %}
+                        <span class="notif-badge">{{ unread_count }}</span>
+                        {% endif %}
+                    </button>
+                    <div class="notif-dropdown" id="notif-menu">
+                        <div
+                            style="padding: 14px 16px; border-bottom: 1px solid #1e293b; font-weight: 700; font-size: 13px; color: #fff; background: #0a0a0a; text-transform: uppercase; letter-spacing: 0.5px;">
+                            Notifications
+                        </div>
+                        {% for n in notifications %}
+                        <a href="{% url 'mark_read' n.id %}" class="notif-item">
+                            <div class="notif-title">
+                                <span style="font-weight: 700; color: #3b82f6;">{{ n.actor.username }}</span>
+                                <span style="color: #cbd5e1;">
+                                    {% if n.notif_type == 'like' %} liked your post.
+                                    {% else %} commented on your post.
+                                    {% endif %}
+                                </span>
+                            </div>
+                            <div class="notif-time">{{ n.created_at|timesince }} ago</div>
+                        </a>
+                        {% empty %}
+                        <div style="padding: 40px 20px; text-align: center; color: #4b5563; font-size: 13px;">
+                            No new updates
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+                <a href="{% url 'profile' %}" class="btn-ghost">{{ user.username }}</a>
+                <form action="{% url 'logout' %}" method="post" style="display:inline;">
+                    {% csrf_token %}
+                    <button class="btn-ghost text-sm">Log out</button>
+                </form>
+                {% else %}
+                <a href="{% url 'login' %}" class="btn-ghost">Log in</a>
+                <a href="{% url 'register' %}" class="btn">Sign up</a>
+                {% endif %}
+            </div>
+        </div>
+    </header>
+
+    <div class="container">
+        {% block content %}{% endblock %}
+    </div>
+
+    <script>
+        const notifToggle = document.getElementById('notif-toggle');
+        const notifMenu = document.getElementById('notif-menu');
+
+        if (notifToggle && notifMenu) {
+            notifToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (typeof searchForm !== 'undefined' && searchForm) searchForm.classList.remove('active');
+                notifMenu.classList.toggle('active');
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!notifMenu.contains(e.target)) {
+                    notifMenu.classList.remove('active');
+                }
+            });
+        }
+
+        const searchToggle = document.getElementById('search-toggle');
+        const searchForm = document.getElementById('search-form');
+
+        if (searchToggle && searchForm) {
+            const searchInput = document.getElementById('search-input');
+            const searchSuggestions = document.getElementById('search-suggestions');
+
+            searchToggle.addEventListener('click', (e) => {
+                e.stopPropagation();
+                if (typeof notifMenu !== 'undefined' && notifMenu) notifMenu.classList.remove('active');
+                searchForm.classList.toggle('active');
+                if (searchForm.classList.contains('active')) {
+                    searchInput.focus();
+                } else {
+                    searchSuggestions.style.display = 'none';
+                }
+            });
+
+            document.addEventListener('click', (e) => {
+                if (!searchForm.contains(e.target) && e.target !== searchToggle) {
+                    searchForm.classList.remove('active');
+                    searchSuggestions.style.display = 'none';
+                }
+            });
+
+            let debounceTimer;
+            searchInput.addEventListener('input', (e) => {
+                clearTimeout(debounceTimer);
+                const query = e.target.value.trim();
+
+                if (query.length < 2) {
+                    searchSuggestions.style.display = 'none';
+                    return;
+                }
+
+                debounceTimer = setTimeout(() => {
+                    fetch(`/search/suggestions/?q=${encodeURIComponent(query)}`)
+                        .then(res => res.json())
+                        .then(data => {
+                            if (data.teams.length === 0 && data.players.length === 0) {
+                                searchSuggestions.style.display = 'none';
+                                return;
+                            }
+
+                            let html = '';
+                            if (data.teams.length > 0) {
+                                html += '<div class="suggest-group"><div class="suggest-label">Teams</div>';
+                                data.teams.forEach(t => {
+                                    html += `
+                                        <a href="/teams/${t.id}/" class="suggest-item">
+                                            <div class="suggest-avatar" style="display:flex; align-items:center; justify-content:center; background:#1e293b; color:#fff; font-size:14px; font-weight:800;">
+                                                ${t.image_url ? `<img src="${t.image_url}" style="width:100%; height:100%; object-fit:cover; border-radius:8px;">` : t.name.slice(0, 1)}
+                                            </div>
+                                            <div>
+                                                <div class="suggest-name">${t.name}</div>
+                                                <div class="suggest-meta">${t.game_icon} ${t.slug ? '@' + t.slug : ''}</div>
+                                            </div>
+                                        </a>`;
+                                });
+                                html += '</div>';
+                            }
+
+                            if (data.players.length > 0) {
+                                html += '<div class="suggest-group"><div class="suggest-label">Players</div>';
+                                data.players.forEach(p => {
+                                    html += `
+                                        <a href="/accounts/profile/" class="suggest-item">
+                                            <img src="${p.avatar_url}" class="suggest-avatar" style="border-radius: 50%;">
+                                            <div>
+                                                <div class="suggest-name">${p.username}</div>
+                                                <div class="suggest-meta">Player</div>
+                                            </div>
+                                        </a>`;
+                                });
+                                html += '</div>';
+                            }
+
+                            searchSuggestions.innerHTML = html;
+                            searchSuggestions.style.display = 'block';
+                        });
+                }, 300);
+            });
+        }
+    </script>
+</body>
+
+</html>

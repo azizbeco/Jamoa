@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% block content %}
+<div class="edit-post"
+    style="max-width: 600px; margin: 40px auto; padding: 40px; background: #050505; border: 1px solid rgba(255,255,255,0.08); border-radius: 40px; color: #fff; font-family: 'Inter', sans-serif;">
+    <h1
+        style="font-size: 32px; font-weight: 950; margin-bottom: 30px; letter-spacing: -1px; text-transform: uppercase;">
+        Postni Tahrirlash</h1>
+
+    <style>
+        .form-group {
+            margin-bottom: 30px;
+        }
+
+        .form-group label {
+            display: block;
+            font-size: 10px;
+            font-weight: 950;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            color: #475569;
+            margin-bottom: 12px;
+        }
+
+        .form-group input,
+        .form-group textarea,
+        .form-group select {
+            width: 100%;
+            background: #0a0a0a;
+            border: 1px solid #1a1a1a;
+            border-radius: 20px;
+            padding: 20px;
+            color: #fff;
+            font-family: inherit;
+            font-weight: 700;
+            transition: 0.3s;
+            font-size: 16px;
+        }
+
+        .form-group input:focus,
+        .form-group textarea:focus,
+        .form-group select:focus {
+            border-color: #3b82f6;
+            outline: none;
+            box-shadow: 0 0 30px rgba(59, 130, 246, 0.1);
+        }
+
+        .btn-sync {
+            width: 100%;
+            padding: 20px;
+            border-radius: 20px;
+            background: #3b82f6;
+            color: #fff;
+            font-weight: 950;
+            border: none;
+            cursor: pointer;
+            transition: 0.3s;
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            box-shadow: 0 10px 40px rgba(59, 130, 246, 0.2);
+        }
+
+        .btn-sync:hover {
+            transform: scale(1.02);
+            filter: brightness(1.2);
+        }
+
+        .btn-cancel {
+            display: block;
+            text-align: center;
+            margin-top: 20px;
+            color: #475569;
+            font-weight: 800;
+            text-decoration: none;
+            font-size: 14px;
+        }
+    </style>
+
+    <form method="post">
+        {% csrf_token %}
+        <div class="form-group">
+            <label>O'yin</label>
+            {{ form.game }}
+        </div>
+        <div class="form-group">
+            <label>Post Turi</label>
+            {{ form.post_type }}
+        </div>
+        <div class="form-group">
+            <label>Mazmuni</label>
+            {{ form.content }}
+        </div>
+
+        <button type="submit" class="btn-sync">O'zgarishlarni Saqlash</button>
+        <a href="{% url 'profile' %}" class="btn-cancel">Bekor Qilish</a>
+    </form>
+</div>
+{% endblock %}

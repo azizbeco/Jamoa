@@ -1,0 +1,169 @@
+{% extends 'base.html' %}
+<!-- DEBUG: POST DETAIL V1 - 2026-02-11 -->
+
+{% block content %}
+<style>
+    .p-tag {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-transform: uppercase;
+    }
+
+    .comment-box {
+        padding: 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: 8px;
+    }
+
+    .main-detail {
+        grid-column: 1 / span 3;
+        max-width: 800px;
+        margin: 0 auto;
+        width: 100%;
+    }
+</style>
+
+<main class="main-detail">
+    <div style="margin-bottom: 24px;">
+        <a href="{% url 'home' %}"
+            style="color: #64748b; text-decoration: none; display: flex; align-items: center; gap: 8px; font-size: 14px;">
+            ← Back to Feed
+        </a>
+    </div>
+
+    <div class="card" style="padding: 32px;">
+        <div class="flex justify-between" style="margin-bottom:20px;">
+            <div class="flex gap-3">
+                <img src="https://ui-avatars.com/api/?name={{ post.author.username }}&background=222&color=ccc"
+                    class="avatar" style="width:48px; height:48px;">
+                <div>
+                    <div style="font-weight:600;color:#fff;font-size:16px;">
+                        {{ post.author.username }}
+                    </div>
+                    <div class="text-xs mute" style="margin-top:2px;">
+                        {{ post.created_at|timesince }} ago
+                    </div>
+                </div>
+            </div>
+            <div class="flex gap-2">
+                {% if post.game %}
+                <span class="p-tag" style="color:{{ post.game.color }}; background:{{ post.game.color }}1a;">
+                    {% firstof post.game.icon %}
+                    {{ post.game.name }}
+                </span>
+                {% endif %}
+            </div>
+        </div>
+
+        <p style="color:#eee;white-space:pre-wrap;margin-bottom:24px;font-size:17px;line-height:1.6;">
+            {{ post.content }}
+        </p>
+
+        <div class="flex gap-6"
+            style="margin-bottom:24px; padding-bottom:24px; border-bottom:1px solid rgba(255,255,255,0.05);">
+            <form action="{% url 'like_post' post.id %}" method="post" style="display:inline;">
+                {% csrf_token %}
+                <button type="submit" class="mute"
+                    style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:8px;font-size:15px;">
+                    <span style="color:#ef4444;font-size:18px;">❤️</span>
+                    {{ post.likes_count }} Likes
+                </button>
+            </form>
+
+            <span class="mute" style="display:flex;align-items:center;gap:8px;font-size:15px;">
+                <span style="font-size:18px;">💬</span>
+                {{ post.comments_count }} Comments
+            </span>
+        </div>
+
+        <!-- Comments Section -->
+        <h3 style="font-size:18px; margin-bottom:20px;">Discussion</h3>
+
+        {% if user.is_authenticated %}
+        <form action="{% url 'add_comment' post.id %}" method="post" style="margin-bottom:32px;">
+            {% csrf_token %}
+            <textarea name="text" rows="3" placeholder="Write a comment..."
+                style="background:rgba(255,255,255,0.03);border:1px solid #333;border-radius:12px;width:100%;color:white;padding:16px;font-size:14px;outline:none;resize:none;margin-bottom:12px;"></textarea>
+            <button type="submit" class="btn btn-primary" style="padding:10px 24px;">Post Comment</button>
+        </form>
+        {% endif %}
+
+        <div class="comments">
+            {% for c in post.comments.all %}
+            {% if not c.parent %}
+            <div class="comment-group" style="margin-bottom: 24px;">
+                <!-- Root Comment -->
+                <div class="comment-box" style="padding:16px; background:rgba(255,255,255,0.01);">
+                    <div class="flex gap-2" style="margin-bottom:8px;">
+                        <img src="https://ui-avatars.com/api/?name={{ c.author.username }}&background=334155&color=fff"
+                            style="width:24px; height:24px; border-radius:50%;">
+                        <span style="font-size:14px; color:#3b82f6; font-weight:600;">{{ c.author.username }}</span>
+                        <span class="text-xs mute" style="font-size:10px;">{{ c.created_at|timesince }} ago</span>
+                    </div>
+                    <div style="font-size:14px; color:#cbd5e1; padding-left:32px; line-height:1.5; margin-bottom:12px;">
+                        {{ c.text }}
+                    </div>
+
+                    <div style="padding-left:32px;">
+                        <button onclick="toggleReplyForm('{{ c.id }}')"
+                            style="background:none; border:none; color:#3b82f6; font-size:12px; font-weight:600; cursor:pointer; padding:0;">
+                            Reply
+                        </button>
+                    </div>
+
+                    <!-- Reply Form (Hidden) -->
+                    <div id="reply-form-{{ c.id }}" style="display:none; margin-top:16px; padding-left:32px;">
+                        <form action="{% url 'add_comment' post.id %}" method="post">
+                            {% csrf_token %}
+                            <input type="hidden" name="parent_id" value="{{ c.id }}">
+                            <textarea name="text" rows="2" placeholder="Write a reply..."
+                                style="background:rgba(255,255,255,0.03);border:1px solid #333;border-radius:8px;width:100%;color:white;padding:12px;font-size:13px;outline:none;resize:none;margin-bottom:8px;"></textarea>
+                            <button type="submit" class="btn btn-primary text-xs" style="padding:6px 16px;">Post
+                                Reply</button>
+                        </form>
+                    </div>
+                </div>
+
+                <!-- Replies -->
+                {% for reply in c.replies.all %}
+                <div class="comment-box"
+                    style="margin-left:48px; padding:12px; background:rgba(255,255,255,0.005); border-left: 2px solid #1e293b;">
+                    <div class="flex gap-2" style="margin-bottom:6px;">
+                        <img src="https://ui-avatars.com/api/?name={{ reply.author.username }}&background=1e293b&color=cbd5e1"
+                            style="width:20px; height:20px; border-radius:50%;">
+                        <span style="font-size:13px; color:#64748b; font-weight:600;">{{ reply.author.username }}</span>
+                        <span class="text-xs mute" style="font-size:9px;">{{ reply.created_at|timesince }} ago</span>
+                    </div>
+                    <div style="font-size:13px; color:#94a3b8; padding-left:28px;">
+                        {{ reply.text }}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endif %}
+            {% empty %}
+            <div style="text-align:center;padding:32px;color:#444;">No comments yet. Be the first to join the
+                conversation!</div>
+            {% endfor %}
+        </div>
+    </div>
+</main>
+
+<script>
+    function toggleReplyForm(commentId) {
+        const form = document.getElementById('reply-form-' + commentId);
+        if (form.style.display === 'none') {
+            form.style.display = 'block';
+        } else {
+            form.style.display = 'none';
+        }
+    }
+</script>
+{% endblock %}

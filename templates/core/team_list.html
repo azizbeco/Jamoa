@@ -1,0 +1,174 @@
+{% extends 'base.html' %}
+<!-- DEBUG: TEAM LIST V2 - 2026-02-11 -->
+
+{% block content %}
+<style>
+    .team-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+        gap: 24px;
+        margin-top: 32px;
+        max-width: 1200px;
+    }
+
+    .team-card {
+        background: var(--bg-card);
+        border: 1px solid var(--border-subtle);
+        border-radius: 16px;
+        overflow: hidden;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        position: relative;
+        display: flex;
+        flex-direction: column;
+        height: 100%;
+        max-width: 400px;
+        /* Prevent over-stretching on wide screens */
+    }
+
+    .team-card:hover {
+        transform: translateY(-8px);
+        border-color: var(--accent-blue);
+        box-shadow: 0 12px 30px rgba(59, 130, 246, 0.15);
+    }
+
+    .team-banner {
+        height: 120px;
+        background: linear-gradient(45deg, #0f172a, #1e293b);
+        position: relative;
+    }
+
+    .team-logo-wrapper {
+        position: absolute;
+        bottom: -30px;
+        left: 20px;
+        width: 80px;
+        height: 80px;
+        border-radius: 12px;
+        background: #000;
+        border: 4px solid var(--bg-card);
+        overflow: hidden;
+        box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+    }
+
+    .team-logo-img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .team-info {
+        padding: 40px 20px 20px 20px;
+        flex-grow: 1;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .team-name {
+        font-size: 20px;
+        font-weight: 700;
+        color: #fff;
+        text-decoration: none;
+        display: block;
+        margin-bottom: 8px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .team-meta {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        margin-bottom: 16px;
+        flex-wrap: wrap;
+    }
+
+    .game-badge {
+        font-size: 11px;
+        font-weight: 700;
+        text-transform: uppercase;
+        padding: 4px 10px;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .member-count {
+        font-size: 13px;
+        color: var(--text-muted);
+        display: flex;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .team-desc {
+        font-size: 14px;
+        color: #94a3b8;
+        line-height: 1.5;
+        margin-bottom: 20px;
+        display: -webkit-box;
+        -webkit-line-clamp: 3;
+        /* Increased for better readability */
+        -webkit-box-orient: vertical;
+        overflow: hidden;
+        flex-grow: 1;
+    }
+</style>
+
+<div style="grid-column: 1 / span 3; max-width: 1200px; margin: 0 auto; width: 100%;">
+    <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom: 8px;">
+        <div>
+            <h1 style="margin:0; font-size:28px;">Discovery Teams</h1>
+            <p style="margin:4px 0 0 0; color:#64748b;">Find your squad and dominate the competition.</p>
+        </div>
+        <a href="{% url 'create_team' %}" class="btn btn-primary" style="padding: 12px 24px; border-radius: 12px;">
+            <span style="font-size:18px; margin-right:8px;">+</span> Create New Team
+        </a>
+    </div>
+
+    <div class="team-grid">
+        {% for team in teams %}
+        <div class="team-card">
+            <div class="team-banner" style="background: linear-gradient(135deg, {{ team.game.color }}33, #000);">
+                <div class="team-logo-wrapper">
+                    {% if team.image %}
+                    <img src="{{ team.image.url }}" class="team-logo-img">
+                    {% else %}
+                    <div
+                        style="width:100%; height:100%; display:flex; align-items:center; justify-content:center; background:#1e293b; color:#fff; font-size:32px; font-weight:800;">
+                        {{ team.name|slice:":1" }}
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+            <div class="team-info">
+                <div class="team-meta">
+                    <span class="game-badge" style="background: {{ team.game.color }}1a; color: {{ team.game.color }};">
+                        {{ team.game.icon }} {{ team.game.name }}
+                    </span>
+                    <span class="member-count">
+                        👥 {{ team.members.count }} Members
+                    </span>
+                </div>
+                <a href="{% url 'team_detail' team.id %}" class="team-name">{{ team.name }}</a>
+                <p class="team-desc">{{ team.description|default:"No description provided." }}</p>
+
+                <a href="{% url 'team_detail' team.id %}" class="btn-ghost"
+                    style="width:100%; justify-content:center; border: 1px solid #1e293b !important;">
+                    View Squad Details
+                </a>
+            </div>
+        </div>
+        {% empty %}
+        <div
+            style="grid-column: 1 / -1; text-align:center; padding: 80px 20px; background:rgba(255,255,255,0.02); border-radius:16px;">
+            <div style="font-size:48px; margin-bottom:16px;">🔍</div>
+            <h3 style="color:#fff;">No teams found yet</h3>
+            <p style="color:#64748b;">Be the first to build a legendary team!</p>
+            <a href="{% url 'create_team' %}" class="btn btn-primary" style="margin-top:16px;">Create Team</a>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

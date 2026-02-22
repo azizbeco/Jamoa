@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    .auth-page-wrapper {
+        grid-column: 1 / -1;
+        /* Take full width of the container grid */
+        display: flex;
+        justify-content: center;
+        padding: 40px 0;
+    }
+
+    .auth-card {
+        width: 100%;
+        max-width: 500px;
+        /* Bit narrower for login */
+        background: rgba(13, 17, 23, 0.6);
+        backdrop-filter: blur(15px);
+        border: 1px solid var(--border-subtle);
+        border-radius: 20px;
+        padding: 40px;
+        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+    }
+
+    .elite-input-group {
+        margin-bottom: 24px;
+    }
+
+    .elite-label {
+        display: block;
+        color: #94a3b8;
+        font-size: 13px;
+        font-weight: 600;
+        margin-bottom: 8px;
+    }
+
+    .error-text {
+        color: var(--accent-red);
+        font-size: 12px;
+        margin-top: 4px;
+        font-weight: 500;
+    }
+
+    .submit-btn {
+        width: 100%;
+        background: var(--accent-blue);
+        color: white;
+        border: none;
+        padding: 16px;
+        border-radius: 12px;
+        font-weight: 700;
+        font-size: 16px;
+        cursor: pointer;
+        transition: 0.3s;
+        margin-top: 10px;
+    }
+
+    .submit-btn:hover {
+        opacity: 0.9;
+        transform: translateY(-2px);
+    }
+</style>
+
+<div class="auth-page-wrapper">
+    <div class="auth-card">
+        <div style="text-align: center; margin-bottom: 40px;">
+            <h1 style="font-size: 28px; margin-bottom: 8px;">Xush kelibsiz!</h1>
+            <p style="color: #64748b;">Hali ham jangga tayyormisiz?</p>
+        </div>
+
+        <form method="post">
+            {% csrf_token %}
+
+            {% for field in form %}
+            <div class="elite-input-group">
+                <label class="elite-label">{{ field.label }}</label>
+                {{ field }}
+                {% if field.errors %}<div class="error-text">{{ field.errors.0 }}</div>{% endif %}
+            </div>
+            {% endfor %}
+
+            <button type="submit" class="submit-btn shadow-blue">Kirish</button>
+        </form>
+
+        <div style="text-align: center; margin-top: 32px; color: #64748b; font-size: 14px;">
+            Hali ro'yxatdan o'tmaganmisiz? <a href="{% url 'register' %}"
+                style="color: var(--accent-blue); font-weight: 700;">Ro'yxatdan o'tish</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

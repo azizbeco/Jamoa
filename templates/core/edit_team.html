@@ -1,0 +1,403 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<style>
+    :root {
+        --dynasty-primary: {
+                {
+                team.game.color|default: '#3b82f6'
+            }
+        }
+
+        ;
+
+        --dynasty-glow: {
+                {
+                team.game.color|default: '#3b82f6'
+            }
+        }
+
+        22;
+        --dynasty-bg: #050505;
+        --dynasty-card: rgba(255, 255, 255, 0.03);
+        --dynasty-border: rgba(255, 255, 255, 0.08);
+    }
+
+    .edit-dynasty-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 40px 20px 100px 20px;
+        grid-column: 1 / span 3;
+        position: relative;
+    }
+
+    /* Header & Back Button */
+    .edit-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-end;
+        margin-bottom: 48px;
+        position: relative;
+    }
+
+    .title-area h1 {
+        font-size: 38px;
+        font-weight: 900;
+        color: #fff;
+        margin: 0;
+        letter-spacing: -1.5px;
+    }
+
+    .title-area p {
+        color: #64748b;
+        margin: 8px 0 0 0;
+        font-size: 15px;
+    }
+
+    .back-link {
+        color: #64748b;
+        text-decoration: none;
+        font-size: 14px;
+        font-weight: 700;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+        transition: 0.2s;
+        margin-bottom: 12px;
+    }
+
+    .back-link:hover {
+        color: var(--dynasty-primary);
+    }
+
+    /* Layout */
+    .edit-grid {
+        display: grid;
+        grid-template-columns: 1fr 420px;
+        gap: 60px;
+    }
+
+    @media (max-width: 1024px) {
+        .edit-grid {
+            grid-template-columns: 1fr;
+        }
+
+        .preview-pane {
+            display: none;
+        }
+    }
+
+    /* Config Pane */
+    .config-card {
+        background: var(--dynasty-card);
+        backdrop-filter: blur(25px);
+        border: 1px solid var(--dynasty-border);
+        border-radius: 28px;
+        padding: 48px;
+        box-shadow: 0 40px 100px -20px rgba(0, 0, 0, 0.7);
+    }
+
+    .config-title {
+        font-size: 20px;
+        font-weight: 800;
+        color: #fff;
+        margin-bottom: 40px;
+        display: flex;
+        align-items: center;
+        gap: 12px;
+    }
+
+    .config-title span {
+        width: 12px;
+        height: 12px;
+        background: var(--dynasty-primary);
+        border-radius: 3px;
+        box-shadow: 0 0 15px var(--dynasty-primary);
+    }
+
+    .field-wrap {
+        margin-bottom: 32px;
+    }
+
+    .field-wrap label {
+        display: block;
+        font-size: 11px;
+        font-weight: 900;
+        color: #475569;
+        text-transform: uppercase;
+        letter-spacing: 1.5px;
+        margin-bottom: 12px;
+    }
+
+    .config-card input,
+    .config-card textarea,
+    .config-card select {
+        width: 100%;
+        background: rgba(0, 0, 0, 0.5) !important;
+        border: 1px solid var(--dynasty-border) !important;
+        padding: 18px 24px !important;
+        color: #fff !important;
+        border-radius: 14px !important;
+        font-size: 15px !important;
+        transition: 0.3s !important;
+    }
+
+    .config-card input:focus {
+        border-color: var(--dynasty-primary) !important;
+        box-shadow: 0 0 0 5px var(--dynasty-glow) !important;
+    }
+
+    /* Premium Preview Pane */
+    .preview-pane {
+        position: sticky;
+        top: 100px;
+    }
+
+    .gamer-card-preview {
+        background: #000;
+        border: 1px solid #1a1a1a;
+        border-radius: 32px;
+        overflow: hidden;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+        position: relative;
+    }
+
+    .preview-hero {
+        height: 160px;
+        background: linear-gradient(to bottom, var(--dynasty-glow), #000);
+        position: relative;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .preview-logo-orb {
+        width: 100px;
+        height: 100px;
+        background: #050505;
+        border: 4px solid #111;
+        border-radius: 20px;
+        position: absolute;
+        bottom: -50px;
+        left: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow: hidden;
+        box-shadow: 0 15px 30px rgba(0, 0, 0, 0.5);
+    }
+
+    .preview-info {
+        padding: 70px 32px 40px 32px;
+    }
+
+    .preview-tag {
+        font-size: 10px;
+        font-weight: 900;
+        color: var(--dynasty-primary);
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        margin-bottom: 8px;
+    }
+
+    .preview-name {
+        font-size: 24px;
+        font-weight: 900;
+        color: #fff;
+        margin-bottom: 4px;
+    }
+
+    .preview-handle {
+        font-size: 14px;
+        color: #64748b;
+        font-weight: 600;
+    }
+
+    .preview-bio {
+        margin-top: 24px;
+        color: #94a3b8;
+        font-size: 14px;
+        line-height: 1.6;
+        height: 80px;
+        overflow: hidden;
+        mask-image: linear-gradient(to bottom, black 60%, transparent 100%);
+    }
+
+    /* Actions */
+    .btn-main {
+        background: var(--dynasty-primary);
+        color: #fff;
+        border: none;
+        padding: 20px;
+        border-radius: 16px;
+        font-weight: 800;
+        width: 100%;
+        cursor: pointer;
+        transition: 0.3s;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        box-shadow: 0 10px 25px var(--dynasty-glow);
+    }
+
+    .btn-main:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 15px 35px var(--dynasty-glow);
+    }
+
+    .danger-box {
+        margin-top: 48px;
+        padding: 30px;
+        background: rgba(239, 68, 68, 0.05);
+        border: 1px solid rgba(239, 68, 68, 0.1);
+        border-radius: 20px;
+    }
+</style>
+
+<div class="edit-dynasty-container">
+    <div class="edit-header">
+        <div class="title-area">
+            <a href="{% url 'team_detail' team.id %}" class="back-link">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3">
+                    <polyline points="15 18 9 12 15 6"></polyline>
+                </svg>
+                Back to Profile
+            </a>
+            <h1>{{ team.name }}</h1>
+            <p>Modify your squad identity and tactical specifications.</p>
+        </div>
+    </div>
+
+    <div class="edit-grid">
+        <div class="form-pane">
+            <div class="config-card">
+                <form method="post" enctype="multipart/form-data">
+                    {% csrf_token %}
+
+                    <div class="config-title"><span></span> Jamoa Identifikatsiyasi</div>
+
+                    <div class="field-wrap">
+                        <label>Team Identity Name</label>
+                        {{ form.name }}
+                        {% for error in form.name.errors %}<p style="color:#ef4444; font-size:12px; margin-top:4px;">{{
+                            error }}</p>{% endfor %}
+                    </div>
+
+                    <div class="field-wrap">
+                        <label>Public Username (@slug)</label>
+                        {{ form.slug }}
+                        {% for error in form.slug.errors %}<p style="color:#ef4444; font-size:12px; margin-top:4px;">{{
+                            error }}</p>{% endfor %}
+                    </div>
+
+                    <div class="field-wrap">
+                        <label>Legacy Description</label>
+                        {{ form.description }}
+                    </div>
+
+                    <div class="config-title" style="margin-top: 24px;"><span></span> Visual & Technical</div>
+
+                    <div class="field-wrap">
+                        <label>Game Category</label>
+                        {{ form.game }}
+                    </div>
+
+                    <div class="field-wrap">
+                        <label>Squad Logo (Click to change)</label>
+                        <input type="file" name="image" id="id_image" style="display: none;">
+                        <div onclick="document.getElementById('id_image').click()"
+                            style="background:rgba(255,255,255,0.02); border:1.5px dashed var(--dynasty-border); padding:24px; border-radius:14px; text-align:center; cursor:pointer;">
+                            <span id="upload-label" style="color:#64748b; font-size:14px; font-weight:600;">O'rnatilgan
+                                logoni yangilash...</span>
+                        </div>
+                    </div>
+
+                    <button type="submit" class="btn-main">Saqlash (Commit Changes)</button>
+                </form>
+            </div>
+
+            <div class="danger-box">
+                <div
+                    style="color:#ef4444; font-weight:800; font-size:14px; margin-bottom:12px; text-transform:uppercase;">
+                    Danger Zone</div>
+                <form action="{% url 'delete_team' team.id %}" method="post"
+                    onsubmit="return confirm('Siz rostdan ham jamoani butunlay o\'chirmoqchimisiz?');">
+                    {% csrf_token %}
+                    <button type="submit"
+                        style="background:transparent; border:1px solid rgba(239, 68, 68, 0.3); color:#ef4444; padding:12px; border-radius:10px; cursor:pointer; font-weight:700; width:100%;">
+                        Jamoani yo'q qilish
+                    </button>
+                </form>
+            </div>
+        </div>
+
+        <div class="preview-pane">
+            <div
+                style="margin-bottom:16px; color:#475569; font-weight:800; font-size:11px; text-transform:uppercase; letter-spacing:1px;">
+                Live Card Preview</div>
+            <div class="gamer-card-preview">
+                <div class="preview-hero" id="p-bg">
+                    <div class="preview-logo-orb" id="p-logo-box">
+                        {% if team.image %}
+                        <img src="{{ team.image.url }}" id="p-img" style="width:100%; height:100%; object-fit:cover;">
+                        {% else %}
+                        <span id="p-initial" style="font-size:36px; font-weight:900; color:#fff;">{{
+                            team.name|slice:":1" }}</span>
+                        {% endif %}
+                    </div>
+                </div>
+                <div class="preview-info">
+                    <div class="preview-tag">Official Squad</div>
+                    <div class="preview-name" id="p-name">{{ team.name }}</div>
+                    <div class="preview-handle" id="p-slug">@{{ team.slug|default:'no-username' }}</div>
+                    <div class="preview-bio" id="p-desc">{{ team.description|default:'Tavsif hali mavjud emas...' }}
+                    </div>
+                </div>
+            </div>
+
+            <div
+                style="margin-top:32px; padding:24px; border-radius:24px; background:rgba(255,255,255,0.02); border:1px solid var(--dynasty-border);">
+                <div style="color:#fff; font-size:14px; font-weight:700; margin-bottom:8px;">Control Panel</div>
+                <p style="color:#64748b; font-size:13px; line-height:1.6;">O'zgarishlar saqlangan zahoti butun
+                    platformada aks etadi. Professional profil uchun minimalistik logodan foydalaning.</p>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const nameInput = document.querySelector('input[name="name"]');
+    const slugInput = document.querySelector('input[name="slug"]');
+    const descInput = document.querySelector('textarea[name="description"]');
+    const fileInput = document.querySelector('input[name="image"]');
+
+    nameInput.addEventListener('input', (e) => {
+        document.getElementById('p-name').innerText = e.target.value || "{{ team.name }}";
+        const initial = document.getElementById('p-initial');
+        if (initial) initial.innerText = e.target.value ? e.target.value.charAt(0).toUpperCase() : "{{ team.name|slice:':1' }}";
+    });
+
+    slugInput.addEventListener('input', (e) => {
+        document.getElementById('p-slug').innerText = e.target.value ? '@' + e.target.value.toLowerCase() : "@{{ team.slug|default:'no-username' }}";
+    });
+
+    descInput.addEventListener('input', (e) => {
+        document.getElementById('p-desc').innerText = e.target.value || "Tavsif hali mavjud emas...";
+    });
+
+    fileInput.addEventListener('change', (e) => {
+        const file = e.target.files[0];
+        if (file) {
+            document.getElementById('upload-label').innerText = '✓ ' + file.name;
+            const reader = new FileReader();
+            reader.onload = (f) => {
+                const img = document.getElementById('p-img');
+                if (img) img.src = f.target.result;
+                else {
+                    document.getElementById('p-logo-box').innerHTML = `<img src="${f.target.result}" id="p-img" style="width:100%; height:100%; object-fit:cover;">`;
+                }
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+{% endblock %}

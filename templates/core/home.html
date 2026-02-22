@@ -1,0 +1,281 @@
+{% extends 'base.html' %}
+<!-- DEBUG: HOME TEMPLATE V11 - SOCIAL & OPTIMIZED SIDEBAR - 2026-02-11 -->
+
+{% block content %}
+<style>
+    .g-item {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        margin-bottom: 8px;
+        text-decoration: none;
+        transition: 0.2s;
+        cursor: pointer;
+    }
+
+    .g-item:hover {
+        background: rgba(255, 255, 255, 0.05);
+    }
+
+    .g-item.active {
+        background: rgba(255, 255, 255, 0.05);
+        border-left: 3px solid #3b82f6;
+    }
+
+    .gi {
+        width: 36px;
+        height: 36px;
+        border-radius: 8px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 18px;
+        background: #1e293b;
+    }
+
+    .gn {
+        color: #cbd5e1;
+        font-weight: 500;
+        font-size: 14px;
+    }
+
+    .g-item.active .gn {
+        color: #3b82f6;
+        font-weight: 600;
+    }
+
+    .p-tag {
+        font-size: 10px;
+        font-weight: 700;
+        padding: 4px 10px;
+        border-radius: 4px;
+        display: inline-flex;
+        align-items: center;
+        gap: 6px;
+        text-transform: uppercase;
+    }
+
+    .stat-badge {
+        background: rgba(59, 130, 246, 0.1);
+        padding: 12px;
+        border-radius: 8px;
+        border-left: 3px solid #3b82f6;
+        margin-bottom: 12px;
+    }
+
+    .notif-item {
+        padding: 10px;
+        border-radius: 6px;
+        background: rgba(255, 255, 255, 0.03);
+        margin-bottom: 8px;
+        font-size: 12px;
+        border: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    .comment-box {
+        padding: 12px;
+        border-radius: 8px;
+        background: rgba(255, 255, 255, 0.02);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+        margin-top: 8px;
+    }
+</style>
+
+<aside style="position:sticky;top:90px;height:fit-content;">
+    <div style="background:transparent;border:none;border-radius:12px;padding:20px;margin-bottom:24px;">
+        <h3 style="margin:0 0 16px 0;color:#f8fafc;font-size:16px;font-weight:700;">O'yinlar bo'yicha</h3>
+        {% for g in display_games %}
+        <a href="{% url 'home' %}?game={{ g.id }}" class="g-item {% if current_game.id == g.id %}active{% endif %}">
+            <span class="gi" style="background:{{ g.color }}33; color:{{ g.color }};">
+                {% firstof g.icon %}
+            </span>
+            <span class="gn">
+                {{ g.name }}
+            </span>
+        </a>
+        {% endfor %}
+
+        {% if not show_all and all_games_count > 3 %}
+        <a href="{% url 'home' %}?all_games=True"
+            style="color:#64748b; font-size:13px; text-decoration:none; padding:12px; display:block;">
+            View all {{ all_games_count }} games...
+        </a>
+        {% elif show_all %}
+        <a href="{% url 'home' %}"
+            style="color:#3b82f6; font-size:13px; text-decoration:none; padding:12px; display:block;">
+            Show less
+        </a>
+        {% endif %}
+    </div>
+
+    <div style="background:transparent;border:none;border-radius:12px;padding:20px;">
+        <h3 style="margin:0;color:#f8fafc;font-size:16px;font-weight:700;margin-bottom:16px;">Tournaments</h3>
+        {% for t in tournaments %}
+        <div
+            style="padding:12px;background:rgba(255,255,255,0.02);border-radius:8px;margin-bottom:12px;border-left:3px solid #3b82f6;">
+            <div style="font-size:13px;font-weight:600;color:#f8fafc;margin-bottom:4px;">{{ t.name }}</div>
+            <div style="font-size:11px;color:#64748b;">📅 {{ t.date|date:"M d" }}</div>
+        </div>
+        {% empty %}
+        <p style="color:#64748b;font-size:13px;">No tournaments</p>
+        {% endfor %}
+    </div>
+</aside>
+
+<main class="main-feed">
+    {% if current_game %}
+    <div
+        style="background:rgba(255,255,255,0.03);border:1px solid rgba(255,255,255,0.1);border-radius:8px;padding:12px 16px;margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;">
+        <span style="color:#cbd5e1;font-weight:600;font-size:14px;">Filtering: {{ current_game.name }}</span>
+        <a href="{% url 'home' %}" style="color:#94a3b8;font-size:13px;text-decoration:none;">✕ Clear</a>
+    </div>
+    {% endif %}
+
+    {% if user.is_authenticated %}
+    <div style="margin-bottom:32px;border-bottom:1px solid var(--border-subtle);padding-bottom:24px;">
+        <form method="post">
+            {% csrf_token %}
+            <textarea name="content" rows="2" placeholder="What's happening?"
+                style="background:transparent;border:none;font-size:18px;resize:none;width:100%;color:white;outline:none;margin-bottom:12px;"></textarea>
+            <div class="flex gap-3" style="margin-bottom:16px;">
+                <div style="width:140px;">
+                    {{ form.game }}
+                </div>
+                <div style="width:140px;">
+                    {{ form.post_type }}
+                </div>
+            </div>
+            <button type="submit" class="btn btn-primary text-sm" style="padding:8px 24px;">Post</button>
+        </form>
+    </div>
+    {% else %}
+    <!-- Guest Teaser Card -->
+    <div class="guest-teaser-card"
+        style="margin-bottom:32px; padding:32px; background:rgba(255,255,255,0.03); border:1px solid rgba(59,130,246,0.2); border-radius:12px; text-align:center;">
+        <div style="margin-bottom:16px;">
+            <span style="font-size:32px;">⚔️</span>
+        </div>
+        <h2 style="color:white; font-size:20px; font-weight:700; margin-bottom:12px;">Jangga qo'shiling!</h2>
+        <p
+            style="color:#94a3b8; font-size:14px; margin-bottom:24px; max-width:400px; margin-left:auto; margin-right:auto;">
+            Teamify dunyosiga kiring: jamoalar tuzing, turnirlarda qatnashing va boshqa geymerlar bilan muloqot qiling.
+        </p>
+        <div class="flex gap-3 justify-center">
+            <a href="{% url 'register' %}" class="btn btn-primary"
+                style="padding:10px 32px; font-weight:700;">Ro'yxatdan o'tish</a>
+            <a href="{% url 'login' %}" class="btn"
+                style="padding:10px 32px; background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1); font-weight:700;">Kirish</a>
+        </div>
+    </div>
+    {% endif %}
+
+    <div class="feed">
+        {% for p in posts %}
+        <div class="post-card">
+            <div class="flex justify-between" style="margin-bottom:12px;">
+                <div class="flex gap-3">
+                    <a href="{% url 'user_profile' p.author.username %}">
+                        <img src="https://ui-avatars.com/api/?name={{ p.author.username }}&background=222&color=ccc"
+                            class="avatar">
+                    </a>
+                    <div>
+                        <a href="{% url 'user_profile' p.author.username %}" style="text-decoration: none;">
+                            <span style="font-weight:600;color:#fff;">{{ p.author.username }}</span>
+                        </a>
+                        <br>
+                        <span class="text-xs mute">{{ p.created_at|timesince }} ago</span>
+                    </div>
+                </div>
+                <div class="flex gap-2">
+                    {% if p.game %}
+                    <span class="p-tag" style="color:{{ p.game.color }}; background:{{ p.game.color }}1a;">
+                        {% firstof p.game.icon %}
+                        {{ p.game.name }}
+                    </span>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div style="padding-left:52px;">
+                <p style="color:#eee;white-space:pre-wrap;margin-bottom:16px;font-size:15px;">{{ p.content }}</p>
+
+                <div class="flex gap-6" style="margin-bottom:16px;">
+                    <form action="{% url 'like_post' p.id %}" method="post" style="display:inline;">
+                        {% csrf_token %}
+                        <button type="submit" class="mute text-sm"
+                            style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:5px;">
+                            <span style="color:#ef4444;">❤️</span>
+                            {{ p.likes_count }}
+                        </button>
+                    </form>
+
+                    <span class="mute text-sm" style="display:flex;align-items:center;gap:5px;">
+                        <span>💬</span>
+                        {{ p.comments_count }}
+                    </span>
+                </div>
+
+                <!-- Comments Section -->
+                <div class="comments" style="border-top: 1px solid rgba(255,255,255,0.05); padding-top:16px;">
+                    {% if p.comments_count > 1 %}
+                    <a href="{% url 'post_detail' p.id %}"
+                        style="color: #64748b; font-size: 13px; text-decoration: none; display: block; margin-bottom: 12px;">
+                        View all {{ p.comments_count }} comments
+                    </a>
+                    {% endif %}
+
+                    {% with last_comment=p.comments.all.last %}
+                    {% if last_comment %}
+                    <div class="comment-box">
+                        <div style="font-size:12px; color:#3b82f6; font-weight:600; margin-bottom:4px;">
+                            <a href="{% url 'user_profile' last_comment.author.username %}"
+                                style="color: inherit; text-decoration: none;">
+                                {{ last_comment.author.username }}
+                            </a>
+                        </div>
+                        <div style="font-size:13px; color:#cbd5e1;">
+                            {{ last_comment.text }}
+                        </div>
+                        <div style="font-size:10px; color:#64748b; margin-top:4px;">
+                            {{ last_comment.created_at|timesince }} ago
+                        </div>
+                    </div>
+                    {% endif %}
+                    {% endwith %}
+
+                    {% if user.is_authenticated %}
+                    <form action="{% url 'add_comment' p.id %}" method="post" style="margin-top:16px;">
+                        {% csrf_token %}
+                        <div style="display: flex; gap: 8px;">
+                            <input type="text" name="text" placeholder="Add a comment..."
+                                style="background:rgba(255,255,255,0.03);border:1px solid #333;border-radius:6px;flex:1;color:white;padding:8px 12px;font-size:13px;outline:none;">
+                            <button type="submit" class="btn btn-primary text-xs"
+                                style="padding: 0 16px; height: 36px; border-radius: 6px;">Send</button>
+                        </div>
+                    </form>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align:center;padding:40px;color:#555;">No posts found.</div>
+        {% endfor %}
+    </div>
+</main>
+
+<aside class="sidebar-right" style="position:sticky;top:90px;height:fit-content;">
+    <div style="background:transparent;border:none;border-radius:12px;padding:20px;">
+        <h3 style="margin:0 0 16px 0;font-size:16px;font-weight:700;">Insights</h3>
+        <div class="stat-badge">
+            <div style="font-size:24px;font-weight:800;color:#3b82f6;">{{ posts.count }}</div>
+            <div style="font-size:11px;color:#64748b;text-transform:uppercase;">Active Feed</div>
+        </div>
+        <div class="stat-badge" style="border-left-color: #8b5cf6; background: rgba(139, 92, 246, 0.1);">
+            <div style="font-size:24px;font-weight:800;color:#8b5cf6;">{{ user.posts.count }}</div>
+            <div style="font-size:11px;color:#64748b;text-transform:uppercase;">Your Posts</div>
+        </div>
+    </div>
+</aside>
+{% endblock %}
