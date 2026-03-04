@@ -1,5 +1,4 @@
-from django import forms
-from django.contrib.auth.forms import UserCreationForm
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
 from .models import User, Profile
 from core.models import Game
 
@@ -62,6 +61,17 @@ class CustomUserCreationForm(UserCreationForm):
             profile.favorite_games.set(self.cleaned_data.get('favorite_games'))
             profile.save()
         return user
+
+class CustomAuthenticationForm(AuthenticationForm):
+    username = forms.CharField(
+        label="Username (Foydalanuvchi nomi)",
+        widget=forms.TextInput(attrs={'class': 'elite-input', 'placeholder': 'Gamer ismingi...'}),
+        help_text="Ro'yxatdan o'tganingizda foydalangan nomingiz."
+    )
+    password = forms.CharField(
+        label="Parol",
+        widget=forms.PasswordInput(attrs={'class': 'elite-input', 'placeholder': '********'})
+    )
 
 class ProfileForm(forms.ModelForm):
     class Meta:

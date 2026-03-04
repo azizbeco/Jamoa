@@ -3,7 +3,7 @@ from django.db import models
 from .models import User
 from django.contrib.auth import login
 from django.contrib.auth.decorators import login_required
-from .forms import CustomUserCreationForm, ProfileForm
+from .forms import CustomUserCreationForm, ProfileForm, CustomAuthenticationForm
 from .models import Profile
 from django.contrib import messages
 

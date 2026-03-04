@@ -75,6 +75,9 @@
             <div class="elite-input-group">
                 <label class="elite-label">{{ field.label }}</label>
                 {{ field }}
+                {% if field.help_text %}
+                <div style="font-size: 11px; color: #64748b; margin-top: 4px;">{{ field.help_text }}</div>
+                {% endif %}
                 {% if field.errors %}<div class="error-text">{{ field.errors.0 }}</div>{% endif %}
             </div>
             {% endfor %}
