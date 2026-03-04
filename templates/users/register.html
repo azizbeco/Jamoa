@@ -156,14 +156,17 @@
                     <div class="elite-input-group">
                         <label class="elite-label">Foydalanuvchi nomi (Username)</label>
                         {{ form.username }}
-                        {% if form.username.errors %}<div class="error-text">{{ form.username.errors.0 }}</div>{% endif
-                        %}
+                        {% if form.username.errors %}
+                        <div class="error-text">{{ form.username.errors.0 }}</div>
+                        {% endif %}
                         <div class="help-text">Faqat harf, raqam va pastki chiziq. Kamida 4 ta belgi.</div>
                     </div>
                     <div class="elite-input-group">
                         <label class="elite-label">Email Manzili</label>
                         {{ form.email }}
-                        {% if form.email.errors %}<div class="error-text">{{ form.email.errors.0 }}</div>{% endif %}
+                        {% if form.email.errors %}
+                        <div class="error-text">{{ form.email.errors.0 }}</div>
+                        {% endif %}
                         <div class="help-text">Bitta email bilan bitta hisob ochish mumkin.</div>
                     </div>
                 </div>
@@ -172,15 +175,17 @@
                         <label class="elite-label">Parol</label>
                         <input type="password" name="password1" id="id_password1" required placeholder="********"
                             class="password-field">
-                        {% if form.password1.errors %}<div class="error-text">{{ form.password1.errors.0 }}</div>{%
-                        endif %}
+                        {% if form.password1.errors %}
+                        <div class="error-text">{{ form.password1.errors.0 }}</div>
+                        {% endif %}
                     </div>
                     <div class="elite-input-group">
                         <label class="elite-label">Parolni tasdiqlash</label>
                         <input type="password" name="password2" id="id_password2" required placeholder="********"
                             class="password-field">
-                        {% if form.password2.errors %}<div class="error-text">{{ form.password2.errors.0 }}</div>{%
-                        endif %}
+                        {% if form.password2.errors %}
+                        <div class="error-text">{{ form.password2.errors.0 }}</div>
+                        {% endif %}
                     </div>
                 </div>
             </div>
@@ -191,15 +196,17 @@
                     <div class="elite-input-group">
                         <label class="elite-label">Gamer Nickname</label>
                         {{ form.nickname }}
-                        {% if form.nickname.errors %}<div class="error-text">{{ form.nickname.errors.0 }}</div>{% endif
-                        %}
+                        {% if form.nickname.errors %}
+                        <div class="error-text">{{ form.nickname.errors.0 }}</div>
+                        {% endif %}
                         <div class="help-text">O’yinlardagi asosiy ismingiz.</div>
                     </div>
                     <div class="elite-input-group">
                         <label class="elite-label">Asosiy Rolingiz</label>
                         {{ form.game_role }}
-                        {% if form.game_role.errors %}<div class="error-text">{{ form.game_role.errors.0 }}</div>{%
-                        endif %}
+                        {% if form.game_role.errors %}
+                        <div class="error-text">{{ form.game_role.errors.0 }}</div>
+                        {% endif %}
                     </div>
                 </div>
                 <div class="elite-input-group" style="margin-top: 10px;">
