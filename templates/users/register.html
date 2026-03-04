@@ -139,10 +139,12 @@
             <p style="color: #64748b;">Jamoa hamjamiyatiga xush kelibsiz</p>
         </div>
 
-        {% if form.non_field_errors %}<div
+        {% if form.non_field_errors %}
+        <div
             style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); padding: 12px; border-radius: 8px; margin-bottom: 24px;">
             {% for error in form.non_field_errors %}<div class="error-text text-center">{{ error }}</div>{% endfor %}
-        </div>{% endif %}
+        </div>
+        {% endif %}
 
         <form method="post">
             {% csrf_token %}
@@ -211,7 +213,7 @@
         </form>
 
         <div style="text-align: center; margin-top: 32px; color: #64748b; font-size: 14px;">
-            Hisobingiz bormi? <a href="{% url " login" %}"
+            Hisobingiz bormi? <a href="{% url 'login' %}"
                 style="color: var(--accent-blue); font-weight: 700;">Kirish</a>
         </div>
     </div>
