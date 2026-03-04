@@ -156,6 +156,12 @@
                         %}
                         <div class="help-text">Faqat harf, raqam va pastki chiziq. Kamida 4 ta belgi.</div>
                     </div>
+                    <div class="elite-input-group">
+                        <label class="elite-label">Email Manzili</label>
+                        {{ form.email }}
+                        {% if form.email.errors %}<div class="error-text">{{ form.email.errors.0 }}</div>{% endif %}
+                        <div class="help-text">Bitta email bilan bitta hisob ochish mumkin.</div>
+                    </div>
                 </div>
                 <div class="form-grid">
                     <div class="elite-input-group">

@@ -4,24 +4,35 @@ from .models import User, Profile
 from core.models import Game
 
 class CustomUserCreationForm(UserCreationForm):
-    nickname = forms.CharField(max_length=50, required=True, label="Gamer Nickname", help_text="Sizning o'yin dunyosidagi ismingiz")
-    game_role = forms.ChoiceField(choices=Profile.GAME_ROLE_CHOICES, required=True, label="Asosiy Rolingiz")
+    email = forms.EmailField(required=True, label="Email", help_text="Bitta email bilan bitta hisob ochish mumkin.")
+    nickname = forms.CharField(max_length=50, required=True, label="Gamer Nickname")
+    game_role = forms.ChoiceField(choices=Profile.GAME_ROLE_CHOICES, required=True, label="Asosiy Rol")
     favorite_games = forms.ModelMultipleChoiceField(
         queryset=Game.objects.all(),
         widget=forms.CheckboxSelectMultiple,
         required=False,
-        label="Sevimli O'yinlaringiz"
+        label="Sevimli O'yinlar"
     )
 
     class Meta(UserCreationForm.Meta):
         model = User
-        fields = UserCreationForm.Meta.fields + ('nickname', 'game_role', 'favorite_games')
+        fields = ('username', 'email', 'nickname', 'game_role', 'favorite_games')
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email')
+        if User.objects.filter(email=email).exists():
+            raise forms.ValidationError('Bu email allaqachon ro\'yxatdan o\'tgan.')
+        return email
 
     def clean_username(self):
         username = self.cleaned_data.get('username')
         if not username:
             return username
         
+        # Uniqueness check (extra safety)
+        if User.objects.filter(username=username).exists():
+            raise forms.ValidationError('Bu username band. Iltimos, boshqa nom tanlang.')
+
         # Length check
         if len(username) < 4:
             raise forms.ValidationError('Username kamida 4 ta belgidan iborat bo\'lishi kerak.')
