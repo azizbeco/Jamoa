@@ -65,9 +65,9 @@ class CustomUserCreationForm(UserCreationForm):
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(
-        label="Username (Foydalanuvchi nomi)",
-        widget=forms.TextInput(attrs={'class': 'elite-input', 'placeholder': 'Gamer ismingi...'}),
-        help_text="Ro'yxatdan o'tganingizda foydalangan nomingiz."
+        label="Username yoki Email",
+        widget=forms.TextInput(attrs={'class': 'elite-input', 'placeholder': 'Gamer nomi yoki email...'}),
+        help_text="Ro'yxatdan o'tganingizda foydalangan nomingiz yoki email manzilingiz."
     )
     password = forms.CharField(
         label="Parol",

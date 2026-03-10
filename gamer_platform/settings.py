@@ -130,6 +130,11 @@ LOGIN_REDIRECT_URL = 'home'
 LOGIN_URL = 'login'
 LOGOUT_REDIRECT_URL = 'login'
 
+AUTHENTICATION_BACKENDS = [
+    'users.backends.UsernameOrEmailBackend',
+    'django.contrib.auth.backends.ModelBackend',
+]
+
 # Static files for production
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
