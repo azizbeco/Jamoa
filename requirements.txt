@@ -2,5 +2,5 @@ Django>=5.1,<5.2
 Pillow
 gunicorn
 whitenoise
-psycopg2-binary
+psycopg[binary]
 python-dotenv
