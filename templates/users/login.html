@@ -1,94 +1,296 @@
 {% extends 'base.html' %}
+{% load static %}
 
 {% block content %}
 <style>
+    :root {
+        --accent-glow: rgba(59, 130, 246, 0.5);
+        --glass-bg: rgba(13, 17, 23, 0.7);
+        --glass-border: rgba(255, 255, 255, 0.1);
+    }
+
+    body {
+        background: url("{% static 'images/auth_bg.png' %}") no-repeat center center fixed;
+        background-size: cover;
+        overflow-x: hidden;
+    }
+
     .auth-page-wrapper {
         grid-column: 1 / -1;
-        /* Take full width of the container grid */
+        min-height: calc(100vh - 80px);
         display: flex;
+        align-items: center;
         justify-content: center;
-        padding: 40px 0;
+        padding: 40px 20px;
+        perspective: 1000px;
     }
 
     .auth-card {
         width: 100%;
-        max-width: 500px;
-        /* Bit narrower for login */
-        background: rgba(13, 17, 23, 0.6);
-        backdrop-filter: blur(15px);
-        border: 1px solid var(--border-subtle);
-        border-radius: 20px;
-        padding: 40px;
-        box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4);
+        max-width: 450px;
+        background: var(--glass-bg);
+        backdrop-filter: blur(25px) saturate(180%);
+        border: 1px solid var(--glass-border);
+        border-radius: 24px;
+        padding: 48px;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
+        transform-style: preserve-3d;
+        animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+    }
+
+    @keyframes cardAppear {
+        from {
+            opacity: 0;
+            transform: translateY(30px) rotateX(-5deg);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0) rotateX(0);
+        }
+    }
+
+    .header-section {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .header-section h1 {
+        font-size: 32px;
+        font-weight: 800;
+        background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+        margin-bottom: 12px;
+        letter-spacing: -0.5px;
+    }
+
+    .header-section p {
+        color: #94a3b8;
+        font-size: 15px;
     }
 
     .elite-input-group {
-        margin-bottom: 24px;
+        position: relative;
+        margin-bottom: 32px;
     }
 
-    .elite-label {
-        display: block;
-        color: #94a3b8;
-        font-size: 13px;
-        font-weight: 600;
-        margin-bottom: 8px;
+    .elite-input-group input {
+        width: 100%;
+        background: rgba(255, 255, 255, 0.03);
+        border: 1px solid var(--glass-border);
+        border-radius: 12px;
+        padding: 16px 20px;
+        color: white;
+        font-size: 15px;
+        transition: all 0.3s ease;
+        outline: none;
     }
 
-    .error-text {
-        color: var(--accent-red);
+    .elite-input-group label {
+        position: absolute;
+        left: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #64748b;
+        pointer-events: none;
+        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        font-size: 15px;
+    }
+
+    .elite-input-group input:focus,
+    .elite-input-group input:not(:placeholder-shown) {
+        border-color: var(--accent-blue);
+        background: rgba(59, 130, 246, 0.05);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
+    }
+
+    .elite-input-group input:focus+label,
+    .elite-input-group input:not(:placeholder-shown)+label {
+        top: -10px;
+        left: 12px;
         font-size: 12px;
-        margin-top: 4px;
-        font-weight: 500;
+        font-weight: 700;
+        color: var(--accent-blue);
+        background: #0d1117;
+        padding: 2px 8px;
+        border-radius: 4px;
+    }
+
+    .password-toggle {
+        position: absolute;
+        right: 20px;
+        top: 50%;
+        transform: translateY(-50%);
+        color: #64748b;
+        cursor: pointer;
+        transition: 0.2s;
+        z-index: 10;
+    }
+
+    .password-toggle:hover {
+        color: white;
     }
 
     .submit-btn {
         width: 100%;
+        position: relative;
         background: var(--accent-blue);
         color: white;
         border: none;
-        padding: 16px;
-        border-radius: 12px;
+        padding: 18px;
+        border-radius: 14px;
         font-weight: 700;
         font-size: 16px;
         cursor: pointer;
-        transition: 0.3s;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        overflow: hidden;
         margin-top: 10px;
     }
 
+    .submit-btn::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+        transition: 0.5s;
+    }
+
     .submit-btn:hover {
-        opacity: 0.9;
-        transform: translateY(-2px);
+        transform: translateY(-4px);
+        box-shadow: 0 10px 30px var(--accent-glow);
+    }
+
+    .submit-btn:hover::before {
+        left: 100%;
+    }
+
+    .submit-btn:active {
+        transform: translateY(0);
+    }
+
+    .footer-links {
+        text-align: center;
+        margin-top: 40px;
+        font-size: 14px;
+        color: #64748b;
+    }
+
+    .footer-links a {
+        color: var(--accent-blue);
+        font-weight: 700;
+        margin-left: 6px;
+        transition: 0.2s;
+    }
+
+    .footer-links a:hover {
+        text-decoration: underline;
+        opacity: 0.8;
+    }
+
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: var(--glass-bg);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        border-radius: 24px;
+        z-index: 100;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-left-color: var(--accent-blue);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
     }
 </style>
 
 <div class="auth-page-wrapper">
-    <div class="auth-card">
-        <div style="text-align: center; margin-bottom: 40px;">
-            <h1 style="font-size: 28px; margin-bottom: 8px;">Xush kelibsiz!</h1>
-            <p style="color: #64748b;">Hali ham jangga tayyormisiz?</p>
+    <div class="auth-card" id="login-card">
+        <div class="loading-overlay" id="loading-overlay">
+            <div class="spinner"></div>
         </div>
 
-        <form method="post">
+        <div class="header-section">
+            <h1>Xush kelibsiz!</h1>
+            <p>Sizni jang maydonida kutishmoqda ⚔️</p>
+        </div>
+
+        <form method="post" id="login-form">
             {% csrf_token %}
 
-            {% for field in form %}
             <div class="elite-input-group">
-                <label class="elite-label">{{ field.label }}</label>
-                {{ field }}
-                {% if field.help_text %}
-                <div style="font-size: 11px; color: #64748b; margin-top: 4px;">{{ field.help_text }}</div>
-                {% endif %}
-                {% if field.errors %}<div class="error-text">{{ field.errors.0 }}</div>{% endif %}
+                <input type="text" name="username" id="id_username" placeholder=" " required>
+                <label for="id_username">Username yoki Email</label>
             </div>
-            {% endfor %}
 
-            <button type="submit" class="submit-btn shadow-blue">Kirish</button>
+            <div class="elite-input-group">
+                <input type="password" name="password" id="id_password" placeholder=" " required>
+                <label for="id_password">Parol</label>
+                <i class="password-toggle" id="toggle-password">
+                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                        <circle cx="12" cy="12" r="3"></circle>
+                    </svg>
+                </i>
+            </div>
+
+            <button type="submit" class="submit-btn">
+                <span>Jangga kirish</span>
+            </button>
         </form>
 
-        <div style="text-align: center; margin-top: 32px; color: #64748b; font-size: 14px;">
-            Hali ro'yxatdan o'tmaganmisiz? <a href="{% url 'register' %}"
-                style="color: var(--accent-blue); font-weight: 700;">Ro'yxatdan o'tish</a>
+        <div class="footer-links">
+            Hali ro'yxatdan o'tmaganmisiz?
+            <a href="{% url 'register' %}">Yangi akkaunt ochish</a>
         </div>
     </div>
 </div>
+
+<script>
+    // Password toggle logic
+    const togglePassword = document.getElementById('toggle-password');
+    const passwordInput = document.getElementById('id_password');
+
+    togglePassword.addEventListener('click', function () {
+        const type = passwordInput.getAttribute('type') === 'password' ? 'text' : 'password';
+        passwordInput.setAttribute('type', type);
+        this.innerHTML = type === 'password'
+            ? '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path><circle cx="12" cy="12" r="3"></circle></svg>'
+            : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
+    });
+
+    // Form submission animation
+    const loginForm = document.getElementById('login-form');
+    const loadingOverlay = document.getElementById('loading-overlay');
+
+    loginForm.addEventListener('submit', function () {
+        loadingOverlay.style.display = 'flex';
+    });
+
+    // Card orientation on mouse move (3D effect)
+    const card = document.getElementById('login-card');
+    document.addEventListener('mousemove', (e) => {
+        let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
+        let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
+        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
+    });
+</script>
 {% endblock %}

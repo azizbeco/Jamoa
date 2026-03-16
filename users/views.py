@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from .forms import CustomUserCreationForm, ProfileForm, CustomAuthenticationForm
 from .models import Profile
 from django.contrib import messages
+from django.http import JsonResponse
 
 def register(request):
     if request.method == 'POST':
@@ -59,3 +60,16 @@ def profile(request, username=None):
         'form': ProfileForm(instance=profile) if is_owner else None,
     }
     return render(request, 'users/profile.html', context)
+
+def check_availability(request):
+    field = request.GET.get('field')
+    value = request.GET.get('value')
+    
+    if field == 'username':
+        exists = User.objects.filter(username__iexact=value).exists()
+    elif field == 'email':
+        exists = User.objects.filter(email__iexact=value).exists()
+    else:
+        return JsonResponse({'error': 'Invalid field'}, status=400)
+        
+    return JsonResponse({'available': not exists})
