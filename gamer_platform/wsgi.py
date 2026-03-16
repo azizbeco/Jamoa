@@ -1,13 +1,15 @@
-"""
-WSGI config for gamer_platform project.
-
-It exposes the WSGI callable as a module-level variable named ``application``.
-
-For more information on this file, see
-https://docs.djangoproject.com/en/4.2/howto/deployment/wsgi/
-"""
-
 import os
+import sys
+
+# Add the project and virtualenv to the Python path
+path = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+if path not in sys.path:
+    sys.path.append(path)
+
+# Add site-packages to path (targeting Python 3.11 as seen in logs)
+venv_site_packages = os.path.join(path, 'venv', 'lib', 'python3.11', 'site-packages')
+if venv_site_packages not in sys.path:
+    sys.path.append(venv_site_packages)
 
 from django.core.wsgi import get_wsgi_application
 
