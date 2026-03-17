@@ -281,7 +281,9 @@ def tournament_detail(request, tournament_id):
     user_reg = registrations.filter(user=request.user).first() if request.user.is_authenticated else None
     user_led_teams = Team.objects.filter(leader=request.user, game=tournament.game) if request.user.is_authenticated else []
     
-    if user_reg:
+    if not request.user.is_authenticated:
+        reg_widget_html = """<button class="reg-btn reg-btn-primary" onclick="openAuthModal('login')">QO'SHILISH</button>"""
+    elif user_reg:
         reg_widget_html = """<div style="padding:18px; border-radius:16px; background:rgba(52,211,153,0.1); color:#34d399; font-weight:900; border:1px solid rgba(52,211,153,0.2);">✓ TASDIQLANGAN</div>"""
     else:
         reg_widget_html = """<button class="reg-btn reg-btn-primary" onclick="document.getElementById('reg-modal').classList.add('active-modal')">QO'SHILISH</button>"""
