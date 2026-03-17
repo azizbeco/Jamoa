@@ -150,25 +150,6 @@
             <button type="submit" class="btn btn-primary text-sm" style="padding:8px 24px;">Post</button>
         </form>
     </div>
-    {% else %}
-    <!-- Guest Teaser Card -->
-    <div class="guest-teaser-card"
-        style="margin-bottom:32px; padding:32px; background:rgba(255,255,255,0.03); border:1px solid rgba(59,130,246,0.2); border-radius:12px; text-align:center;">
-        <div style="margin-bottom:16px;">
-            <span style="font-size:32px;">⚔️</span>
-        </div>
-        <h2 style="color:white; font-size:20px; font-weight:700; margin-bottom:12px;">Jangga qo'shiling!</h2>
-        <p
-            style="color:#94a3b8; font-size:14px; margin-bottom:24px; max-width:400px; margin-left:auto; margin-right:auto;">
-            Jamoa dunyosiga kiring: jamoalar tuzing, turnirlarda qatnashing va boshqa geymerlar bilan muloqot qiling.
-        </p>
-        <div class="flex gap-3 justify-center">
-            <a href="{% url 'register' %}" class="btn btn-primary"
-                style="padding:10px 32px; font-weight:700;">Ro'yxatdan o'tish</a>
-            <a href="{% url 'login' %}" class="btn"
-                style="padding:10px 32px; background:rgba(255,255,255,0.05); color:white; border:1px solid rgba(255,255,255,0.1); font-weight:700;">Kirish</a>
-        </div>
-    </div>
     {% endif %}
 
     <div class="feed">
@@ -202,6 +183,7 @@
                 <p style="color:#eee;white-space:pre-wrap;margin-bottom:16px;font-size:15px;">{{ p.content }}</p>
 
                 <div class="flex gap-6" style="margin-bottom:16px;">
+                    {% if user.is_authenticated %}
                     <form action="{% url 'like_post' p.id %}" method="post" style="display:inline;">
                         {% csrf_token %}
                         <button type="submit" class="mute text-sm"
@@ -210,6 +192,13 @@
                             {{ p.likes_count }}
                         </button>
                     </form>
+                    {% else %}
+                    <button onclick="openAuthModal('login')" class="mute text-sm"
+                        style="background:none;border:none;padding:0;cursor:pointer;display:flex;align-items:center;gap:5px;">
+                        <span style="color:#ef4444;">❤️</span>
+                        {{ p.likes_count }}
+                    </button>
+                    {% endif %}
 
                     <span class="mute text-sm" style="display:flex;align-items:center;gap:5px;">
                         <span>💬</span>
@@ -255,6 +244,13 @@
                                 style="padding: 0 16px; height: 36px; border-radius: 6px;">Send</button>
                         </div>
                     </form>
+                    {% else %}
+                    <div style="margin-top:16px; display: flex; gap: 8px;">
+                        <input type="text" placeholder="Log in to comment..." onclick="openAuthModal('login')" readonly
+                            style="background:rgba(255,255,255,0.03);border:1px solid #333;border-radius:6px;flex:1;color:#64748b;padding:8px 12px;font-size:13px;outline:none;cursor:pointer;">
+                        <button type="button" onclick="openAuthModal('login')" class="btn btn-primary text-xs"
+                            style="padding: 0 16px; height: 36px; border-radius: 6px;">Send</button>
+                    </div>
                     {% endif %}
                 </div>
             </div>

@@ -158,7 +158,8 @@
                 <h1 class="hero-name">{{ team.name }}</h1>
                 <div class="hero-badges">
                     {% if team.slug %}
-                    <span style="color: var(--accent-blue); font-weight: 800; font-size: 14px; margin-right: 8px;">@{{ team.slug }}</span>
+                    <span style="color: var(--accent-blue); font-weight: 800; font-size: 14px; margin-right: 8px;">@{{
+                        team.slug }}</span>
                     {% endif %}
                     <span
                         style="color: {{ team.game.color }}; border: 1px solid {{ team.game.color }}44; padding: 4px 12px; border-radius: 100px; font-size: 12px; font-weight: 700; background: {{ team.game.color }}11;">
@@ -168,22 +169,9 @@
                 </div>
             </div>
             <div style="margin-bottom:8px; display:flex; gap:12px;">
-                {% if user.is_authenticated %}
-                {% if user == team.leader %}
-                <a href="{% url 'edit_team' team.id %}" class="btn"
-                    style="background: rgba(255,255,255,0.1); color: #fff; border: 1px solid rgba(255,255,255,0.2);">
-                    ⚙️ Edit Team
-                </a>
-                {% endif %}
-                {% if user in team.members.all %}
-                <button class="btn"
-                    style="background: rgba(16, 185, 129, 0.1); color: #10b981; border: 1px solid #10b98144; cursor: default;">
-                    ✓ Member
-                </button>
                 {% else %}
-                <a href="{% url 'join_team' team.id %}" class="btn btn-primary" style="padding: 12px 32px;">Join
-                    Team</a>
-                {% endif %}
+                <button onclick="openAuthModal('login')" class="btn btn-primary" style="padding: 12px 32px;">Join
+                    Team</button>
                 {% endif %}
             </div>
         </div>
@@ -193,7 +181,8 @@
         <div class="main-content">
             <div class="card" style="padding:32px; margin-bottom:32px;">
                 <h3 class="section-title">Description</h3>
-                <p style="color: #94a3b8; line-height: 1.7; font-size: 16px; white-space: pre-wrap;">{{ team.description|default:"Members of this team haven't written a description yet." }}</p>
+                <p style="color: #94a3b8; line-height: 1.7; font-size: 16px; white-space: pre-wrap;">{{
+                    team.description|default:"Members of this team haven't written a description yet." }}</p>
             </div>
 
             <div class="card" style="padding:32px;">
@@ -209,7 +198,8 @@
                             <div
                                 style="font-size:14px; font-weight:600; color:#fff; white-space:nowrap; overflow:hidden; text-overflow:ellipsis;">
                                 {{ m.username }}</div>
-                            <div style="font-size:11px; color:#64748b;">{{ m.profile.get_game_role_display|default:"Player" }}</div>
+                            <div style="font-size:11px; color:#64748b;">{{
+                                m.profile.get_game_role_display|default:"Player" }}</div>
                         </div>
                     </div>
                     {% endfor %}
