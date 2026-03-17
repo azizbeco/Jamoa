@@ -33,11 +33,18 @@
         }
 
         body {
-            background-color: var(--bg-body);
+            background-color: #050505;
+            background-image: url("{% static 'images/bg-main.png' %}");
+            background-size: cover;
+            background-attachment: fixed;
+            background-position: center;
             color: var(--text-main);
-            font-family: 'Inter', sans-serif;
-            font-size: 15px;
-            line-height: 1.5;
+            font-family: 'Inter', system-ui, -apple-system, sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            overflow-x: hidden;
+            margin: 0;
         }
 
         /* Header */
