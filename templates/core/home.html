@@ -151,8 +151,9 @@
             <div
                 style="background:rgba(239, 68, 68, 0.1); border:1px solid rgba(239, 68, 68, 0.2); border-radius:8px; padding:12px; margin-bottom:16px; color:#ef4444; font-size:13px;">
                 {% for field, errors in form.errors.items %}
-                {% for error in errors %}<div class="flex items-center gap-2"><span>⚠️</span> {{ error }}</div>{% endfor
-                %}
+                {% for error in errors %}
+                <div class="flex items-center gap-2"><span>⚠️</span> {{ error }}</div>
+                {% endfor %}
                 {% endfor %}
             </div>
             {% endif %}
