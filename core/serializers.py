@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Game, Post, Team, Tournament
+from .models import Game, Post, Team, Tournament, Like, Comment
 from users.models import User, Profile
 
 class GameSerializer(serializers.ModelSerializer):
