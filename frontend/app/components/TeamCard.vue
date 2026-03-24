@@ -10,8 +10,31 @@ const props = defineProps<{
   }
 }>()
 
+const { token } = useAuth()
+const { notify } = useNotifications()
+const config = useRuntimeConfig()
+
 const formatDate = (dateStr: string) => {
   return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
+}
+
+const joinSquad = async () => {
+  if (!token.value) {
+    notify('Authentication Required: Please login to join.', 'error')
+    return
+  }
+
+  try {
+    const res = await $fetch(`${config.public.apiBase}/teams/${props.team.id}/join/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token.value}`
+      }
+    })
+    notify(res.detail || 'Squad join protocol successful!', 'success')
+  } catch (err: any) {
+    notify(err.data?.error || 'Join Failed: Request denied.', 'error')
+  }
 }
 </script>
 
@@ -47,12 +70,20 @@ const formatDate = (dateStr: string) => {
         <span>{{ formatDate(team.created_at) }}</span>
       </div>
 
-      <NuxtLink 
-        :to="`/teams/${team.id}`"
-        class="mt-6 w-full bg-slate-950 border border-blue-900/50 hover:bg-blue-600 hover:border-blue-600 text-blue-500 hover:text-white py-2 rounded font-black uppercase text-[10px] transition-all text-center skew-x-[-10deg]"
-      >
-        <span class="inline-block skew-x-[10deg]">View Profile</span>
-      </NuxtLink>
+      <div class="mt-6 flex gap-3">
+        <NuxtLink 
+          :to="`/teams/${team.id}`"
+          class="flex-1 bg-slate-950 border border-blue-900/50 hover:bg-slate-900 text-blue-500 hover:text-white py-2 rounded font-black uppercase text-[10px] transition-all text-center skew-x-[-10deg]"
+        >
+          <span class="inline-block skew-x-[10deg]">Intel</span>
+        </NuxtLink>
+        <button 
+          @click="joinSquad"
+          class="flex-1 bg-blue-600 hover:bg-blue-700 text-white py-2 rounded font-black uppercase text-[10px] transition-all text-center skew-x-[-10deg] shadow-[0_0_15px_rgba(37,99,235,0.3)] active:scale-95"
+        >
+          <span class="inline-block skew-x-[10deg]">Join</span>
+        </button>
+      </div>
     </div>
   </div>
 </template>
