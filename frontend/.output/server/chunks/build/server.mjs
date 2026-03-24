@@ -1,4 +1,4 @@
-import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { hasInjectionContext, getCurrentInstance, defineComponent, ref, inject, h, Suspense, Fragment, createApp, provide, shallowReactive, onErrorCaptured, onServerPrefetch, unref, createVNode, resolveDynamicComponent, reactive, effectScope, defineAsyncComponent, mergeProps, getCurrentScope, toRef, shallowRef, isReadonly, useSSRContext, isRef, isShallow, isReactive, toRaw } from 'vue';
+import process from 'node:process';globalThis._importMeta_=globalThis._importMeta_||{url:"file:///_entry.js",env:process.env};import { hasInjectionContext, inject, getCurrentInstance, defineComponent, ref, h, Suspense, Fragment, createApp, provide, shallowReactive, onErrorCaptured, onServerPrefetch, unref, createVNode, resolveDynamicComponent, reactive, effectScope, defineAsyncComponent, mergeProps, getCurrentScope, toRef, shallowRef, isReadonly, useSSRContext, isRef, isShallow, isReactive, toRaw } from 'vue';
 import { p as parseURL, l as encodePath, m as decodePath, h as createError$1, n as hasProtocol, o as isScriptProtocol, k as joinURL, w as withQuery, q as sanitizeStatusCode, r as getContext, $ as $fetch, v as executeAsync, x as defu } from '../_/nitro.mjs';
 import { b as baseURL } from '../routes/renderer.mjs';
 import { RouterView, createMemoryHistory, createRouter, START_LOCATION } from 'vue-router';
@@ -586,20 +586,25 @@ const __nuxt_page_meta = {
 };
 const _routes = [
   {
+    name: "teams-id",
+    path: "/teams/:id()",
+    component: () => import('./_id_-B74PgWVs.mjs')
+  },
+  {
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./login-hJYman1B.mjs')
+    component: () => import('./login-DlZUCNr9.mjs')
   },
   {
     name: "teams",
     path: "/teams",
-    component: () => import('./index-BTMNfzsl.mjs')
+    component: () => import('./index-CNTrgMV6.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-Dgle7L0B.mjs')
+    component: () => import('./index-CT4_gCxi.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -1072,7 +1077,7 @@ const _sfc_main$1 = {
     const statusText = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-DHAzIRwz.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-BuY5YAuZ.mjs'));
     const _Error = defineAsyncComponent(() => import('./error-500-DxVQGnw3.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
@@ -1154,5 +1159,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { _export_sfc as _, useRuntimeConfig as a, useRouter as b, nuxtLinkDefaults as c, asyncDataDefaults as d, entry_default as default, encodeRoutePath as e, createError as f, fetchDefaults as g, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
+export { _export_sfc as _, useRoute as a, useRuntimeConfig as b, useRouter as c, nuxtLinkDefaults as d, entry_default as default, encodeRoutePath as e, asyncDataDefaults as f, createError as g, fetchDefaults as h, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
 //# sourceMappingURL=server.mjs.map

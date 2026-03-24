@@ -27,7 +27,12 @@ const handleSubmit = async () => {
   if (result.success) {
     emit('success')
   } else {
-    error.value = result.error
+    // If it's a field error (like username/email), it might be an object
+    if (typeof result.error === 'object') {
+      error.value = Object.values(result.error).flat().join(' ')
+    } else {
+      error.value = result.error || "Operation Failed"
+    }
   }
 }
 </script>
@@ -80,11 +85,13 @@ const handleSubmit = async () => {
           </div>
 
           <div class="space-y-1">
-            <label class="text-[10px] uppercase font-bold text-red-500/80 tracking-widest">Email Address</label>
+            <label class="text-[10px] uppercase font-bold text-red-500/80 tracking-widest">
+              {{ mode === 'login' ? 'Username or Email' : 'Email Address' }}
+            </label>
             <input 
               v-model="email"
-              type="email" 
-              placeholder="warrior@jamoa.com"
+              :type="mode === 'login' ? 'text' : 'email'" 
+              :placeholder="mode === 'login' ? 'Gamer_ID / warrior@jamoa.com' : 'warrior@jamoa.com'"
               class="w-full bg-slate-900/50 border border-red-900/20 rounded-lg py-3 px-4 text-white focus:outline-none focus:border-red-600/50 focus:ring-1 focus:ring-red-600/20 transition-all font-mono placeholder:text-slate-700"
               required
             />
