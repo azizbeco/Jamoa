@@ -2,10 +2,11 @@
 {% block content %}
 <style>
     :root {
-        --glass: rgba(255, 255, 255, 0.03);
-        --border: rgba(255, 255, 255, 0.08);
-        --accent: #3b82f6;
-        --accent-glow: rgba(59, 130, 246, 0.3);
+        --glass: rgba(255, 255, 255, 0.02);
+        --border: rgba(255, 255, 255, 0.06);
+        --accent: #dc2626;
+        --accent-glow: rgba(220, 38, 38, 0.3);
+        --accent-blue: #dc2626;
     }
 
     /* Hero spans across all 3 grid columns defined in base.html */
@@ -26,16 +27,17 @@
     .hero-banner {
         position: absolute;
         inset: 0;
-        background: linear-gradient(45deg, #050505, #111);
-        opacity: 0.8;
+        background: linear-gradient(135deg, #0a0000 0%, #1a0000 40%, #000 100%);
+        opacity: 1;
     }
 
     .hero-banner::after {
         content: '';
         position: absolute;
         inset: 0;
-        background: radial-gradient(circle at 50% 50%, transparent 0%, #000 100%), url('https://www.transparenttextures.com/patterns/carbon-fibre.png');
-        opacity: 0.3;
+        background:
+            radial-gradient(ellipse 60% 40% at 30% 60%, rgba(220, 38, 38, 0.12) 0%, transparent 60%),
+            radial-gradient(ellipse 30% 20% at 80% 20%, rgba(180, 10, 10, 0.08) 0%, transparent 50%);
     }
 
     .hero-overlay {
@@ -198,7 +200,8 @@
         left: 0;
         right: 0;
         height: 2px;
-        background: var(--accent-blue);
+        background: var(--accent);
+        box-shadow: 0 0 8px var(--accent-glow);
     }
 
     /* Section Control */
@@ -251,12 +254,19 @@
 
     .p-badge {
         padding: 16px;
-        border-radius: 16px;
+        border-radius: 12px;
         background: #050505;
         border: 1px solid var(--border-subtle);
         margin-bottom: 12px;
         position: relative;
         overflow: hidden;
+        transition: border-color 0.25s, box-shadow 0.25s, transform 0.2s;
+    }
+
+    .p-badge:hover {
+        border-color: rgba(220, 38, 38, 0.3);
+        box-shadow: 0 0 16px rgba(220, 38, 38, 0.08);
+        transform: translateX(3px);
     }
 
     .p-badge::before {
@@ -265,12 +275,12 @@
         left: 0;
         top: 0;
         bottom: 0;
-        width: 4px;
-        background: var(--accent-blue);
+        width: 3px;
+        background: var(--accent);
     }
 
     .p-badge.role::before {
-        background: var(--accent-blue);
+        background: var(--accent);
     }
 
     .p-badge.skill.pro::before {
@@ -459,7 +469,7 @@
     }
 
     .manage-btn.edit:hover {
-        background: rgba(59, 130, 246, 0.1);
+        background: rgba(220, 38, 38, 0.1);
         color: var(--accent);
         border-color: var(--accent);
         transform: translateY(-2px);
@@ -492,9 +502,10 @@
     }
 
     .team-mini-card:hover {
-        background: rgba(255, 255, 255, 0.05);
-        border-color: var(--accent-blue);
+        background: rgba(220, 38, 38, 0.04);
+        border-color: var(--accent);
         transform: translateX(5px);
+        box-shadow: 0 0 16px rgba(220, 38, 38, 0.08);
     }
 
     .tmc-img {
@@ -502,14 +513,14 @@
         height: 48px;
         border-radius: 8px;
         overflow: hidden;
-        background: #000;
+        background: #100000;
         flex-shrink: 0;
         display: flex;
         align-items: center;
         justify-content: center;
         font-weight: 800;
-        color: var(--accent-blue);
-        border: 1px solid var(--border-subtle);
+        color: var(--accent);
+        border: 1px solid rgba(220, 38, 38, 0.2);
     }
 
     .tmc-img img {
@@ -558,8 +569,8 @@
     }
 
     .tr-status.upcoming {
-        color: #3b82f6;
-        background: rgba(59, 130, 246, 0.1);
+        color: var(--accent);
+        background: rgba(220, 38, 38, 0.1);
     }
 
     .tr-status.ongoing {
@@ -668,7 +679,8 @@
 
     .form-group input:focus,
     .form-group textarea:focus {
-        border-color: var(--accent-blue);
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
     }
 
     .game-checkbox-grid {
@@ -696,7 +708,7 @@
     .game-checkbox-item input {
         width: 18px;
         height: 18px;
-        accent-color: var(--accent-blue);
+        accent-color: var(--accent);
     }
 
     /* Interactive Transitions */
