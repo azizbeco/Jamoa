@@ -604,7 +604,7 @@ const _routes = [
     name: "admin-tournaments",
     path: "/admin/tournaments",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./tournaments-BU1MHL-7.mjs')
+    component: () => import('./tournaments-D5_qYbyc.mjs')
   },
   {
     name: "teams-id",
@@ -636,12 +636,12 @@ const _routes = [
   {
     name: "teams",
     path: "/teams",
-    component: () => import('./index-C-LwoQ2E.mjs')
+    component: () => import('./index-DnvsM7gH.mjs')
   },
   {
     name: "tournaments",
     path: "/tournaments",
-    component: () => import('./index-DnCdIvJo.mjs')
+    component: () => import('./index-CZw4LHQ0.mjs')
   },
   {
     name: "index",
