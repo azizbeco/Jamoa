@@ -16,21 +16,21 @@ const formatDate = (dateStr: string) => {
 </script>
 
 <template>
-  <div class="group relative bg-slate-900/40 border border-red-900/20 rounded-xl p-6 transition-all hover:bg-red-900/5 hover:border-red-600/50 shadow-[0_0_20px_rgba(0,0,0,0.3)] overflow-hidden">
+  <div class="group relative bg-slate-900/40 border border-blue-900/20 rounded-xl p-6 transition-all hover:bg-blue-900/5 hover:border-blue-600/50 shadow-[0_0_20px_rgba(0,0,0,0.3)] overflow-hidden">
     <!-- Cyber decoration -->
-    <div class="absolute top-0 right-0 w-16 h-16 bg-red-600/5 rotate-45 transform translate-x-10 -translate-y-10"></div>
+    <div class="absolute top-0 right-0 w-16 h-16 bg-blue-600/5 rotate-45 transform translate-x-10 -translate-y-10"></div>
     
     <div class="relative z-10 flex flex-col h-full">
       <div class="flex justify-between items-start mb-4">
         <div>
-          <span class="text-[10px] font-black uppercase tracking-widest text-red-500/80 mb-1 block">
+          <span class="text-[10px] font-black uppercase tracking-widest text-blue-500/80 mb-1 block">
             {{ team.game.name }}
           </span>
-          <h3 class="text-xl font-black uppercase italic tracking-tighter text-white group-hover:text-red-500 transition-colors">
+          <h3 class="text-xl font-black uppercase italic tracking-tighter text-white group-hover:text-blue-500 transition-colors">
             {{ team.name }}
           </h3>
         </div>
-        <div class="w-10 h-10 rounded bg-slate-950 border border-red-900/30 flex items-center justify-center text-red-500 font-black italic shadow-inner">
+        <div class="w-10 h-10 rounded bg-slate-950 border border-blue-900/30 flex items-center justify-center text-blue-500 font-black italic shadow-inner">
           {{ team.name.charAt(0) }}
         </div>
       </div>
@@ -39,9 +39,9 @@ const formatDate = (dateStr: string) => {
         Led by <span class="text-slate-300">@{{ team.leader.username }}</span>
       </p>
 
-      <div class="mt-auto pt-4 border-t border-red-900/10 flex justify-between items-center text-[11px] font-bold uppercase tracking-widest text-slate-500">
+      <div class="mt-auto pt-4 border-t border-blue-900/10 flex justify-between items-center text-[11px] font-bold uppercase tracking-widest text-slate-500">
         <div class="flex items-center space-x-2">
-          <span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span>
+          <span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span>
           <span>{{ team.members_count || 1 }} Members</span>
         </div>
         <span>{{ formatDate(team.created_at) }}</span>
@@ -49,7 +49,7 @@ const formatDate = (dateStr: string) => {
 
       <NuxtLink 
         :to="`/teams/${team.id}`"
-        class="mt-6 w-full bg-slate-950 border border-red-900/50 hover:bg-red-600 hover:border-red-600 text-red-500 hover:text-white py-2 rounded font-black uppercase text-[10px] transition-all text-center skew-x-[-10deg]"
+        class="mt-6 w-full bg-slate-950 border border-blue-900/50 hover:bg-blue-600 hover:border-blue-600 text-blue-500 hover:text-white py-2 rounded font-black uppercase text-[10px] transition-all text-center skew-x-[-10deg]"
       >
         <span class="inline-block skew-x-[10deg]">View Profile</span>
       </NuxtLink>
@@ -65,7 +65,7 @@ const formatDate = (dateStr: string) => {
   left: 0;
   width: 100%;
   height: 2px;
-  background: linear-gradient(90deg, transparent, #dc2626, transparent);
+  background: linear-gradient(90deg, transparent, #2563eb, transparent);
   transform: scaleX(0);
   transition: transform 0.5s ease;
 }

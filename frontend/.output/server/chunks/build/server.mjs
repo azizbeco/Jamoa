@@ -604,7 +604,7 @@ const _routes = [
     name: "admin-tournaments",
     path: "/admin/tournaments",
     meta: __nuxt_page_meta$2 || {},
-    component: () => import('./tournaments-BU1MHL-7.mjs')
+    component: () => import('./tournaments-D5_qYbyc.mjs')
   },
   {
     name: "teams-id",
@@ -620,7 +620,7 @@ const _routes = [
     name: "admin",
     path: "/admin",
     meta: __nuxt_page_meta$1 || {},
-    component: () => import('./index-DoF0VbXU.mjs')
+    component: () => import('./index-_2u7hwND.mjs')
   },
   {
     name: "login",
@@ -631,22 +631,22 @@ const _routes = [
   {
     name: "profile",
     path: "/profile",
-    component: () => import('./profile-CrG1Ho1w.mjs')
+    component: () => import('./profile-Dxb2nKOb.mjs')
   },
   {
     name: "teams",
     path: "/teams",
-    component: () => import('./index-DanKOQDJ.mjs')
+    component: () => import('./index-DnvsM7gH.mjs')
   },
   {
     name: "tournaments",
     path: "/tournaments",
-    component: () => import('./index-oHNFJ-S5.mjs')
+    component: () => import('./index-CZw4LHQ0.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-BYCI7dqz.mjs')
+    component: () => import('./index-DqhlBpo9.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;

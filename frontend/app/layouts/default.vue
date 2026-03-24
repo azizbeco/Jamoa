@@ -27,8 +27,9 @@ const closeMenu = () => {
   <div class="min-h-screen bg-slate-950 text-white font-sans selection:bg-red-600/30">
     <!-- Background Accents -->
     <div class="fixed inset-0 pointer-events-none z-0 overflow-hidden">
-      <div class="absolute top-[-10%] left-[-10%] w-[40%] h-[40%] bg-red-600 opacity-[0.03] blur-[120px] rounded-full"></div>
-      <div class="absolute bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-red-900 opacity-[0.03] blur-[120px] rounded-full"></div>
+      <div class="absolute top-[-10%] left-[-10%] w-[50%] h-[50%] bg-red-600 opacity-[0.04] blur-[150px] rounded-full"></div>
+      <div class="absolute bottom-[-10%] right-[-10%] w-[50%] h-[50%] bg-blue-600 opacity-[0.04] blur-[150px] rounded-full"></div>
+      <div class="absolute top-[30%] right-[10%] w-[30%] h-[30%] bg-blue-900 opacity-[0.02] blur-[100px] rounded-full"></div>
     </div>
 
     <!-- Global Header -->
