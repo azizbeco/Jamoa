@@ -665,9 +665,12 @@
                 <a href="{% url 'home' %}" class="logo">Jamoa<span>.</span></a>
             </div>
             <nav>
-                <a href="{% url 'home' %}" class="active">Feed</a>
-                <a href="{% url 'team_list' %}">Teams</a>
-                <a href="{% url 'tournament_list' %}">Events</a>
+                <a href="{% url 'home' %}"
+                    class="{% if request.resolver_match.url_name == 'home' %}active{% endif %}">Feed</a>
+                <a href="{% url 'team_list' %}"
+                    class="{% if request.resolver_match.url_name == 'team_list' or request.resolver_match.url_name == 'team_detail' %}active{% endif %}">Teams</a>
+                <a href="{% url 'tournament_list' %}"
+                    class="{% if request.resolver_match.url_name == 'tournament_list' or request.resolver_match.url_name == 'tournament_detail' %}active{% endif %}">Events</a>
             </nav>
             <style>
                 .notif-wrapper {
