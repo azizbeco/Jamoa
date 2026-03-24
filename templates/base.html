@@ -312,7 +312,7 @@
             display: flex;
             width: 100%;
             max-width: 900px;
-            max-height: 90vh;
+            height: 580px;
             background: #0d1117;
             border: 1px solid #1f2937;
             border-radius: 16px;
@@ -354,7 +354,7 @@
             content: '';
             position: absolute;
             inset: 0;
-            background: linear-gradient(90deg, transparent 40%, #0d1117);
+            background: linear-gradient(to right, rgba(0, 0, 0, 0) 30%, #0d1117 100%);
         }
 
         /* Right form panel */
@@ -365,6 +365,7 @@
             display: flex;
             flex-direction: column;
             justify-content: center;
+            min-width: 0;
         }
 
         .auth-modal-form-panel::-webkit-scrollbar {
@@ -485,16 +486,18 @@
 
         .auth-modal-overlay input {
             background: transparent;
-            border: 1px solid #1f2937;
+            border: 1px solid #2d3748;
             padding: 14px 18px;
             font-size: 13px;
             border-radius: 8px;
             margin-bottom: 0;
-            transition: border-color 0.3s;
+            transition: border-color 0.3s, box-shadow 0.3s;
+            color: white;
+            width: 100%;
         }
 
         .auth-modal-overlay input::placeholder {
-            color: #64748b;
+            color: #4b5563;
             text-transform: uppercase;
             font-size: 11px;
             letter-spacing: 1px;
@@ -502,7 +505,19 @@
 
         .auth-modal-overlay input:focus {
             border-color: var(--accent-blue);
-            box-shadow: 0 0 12px rgba(59, 130, 246, 0.1);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.15);
+            outline: none;
+        }
+
+        /* Label above each input */
+        .auth-field label {
+            display: block;
+            font-size: 10px;
+            font-weight: 700;
+            color: #4b5563;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            margin-bottom: 6px;
         }
 
         .auth-submit-btn {
@@ -831,10 +846,14 @@
                     <form action="{% url 'login' %}" method="post">
                         {% csrf_token %}
                         <div class="auth-field">
-                            {{ login_form.username }}
+                            <label>Username or Email</label>
+                            <input type="text" name="username" placeholder="Enter username or email"
+                                autocomplete="username">
                         </div>
                         <div class="auth-field">
-                            {{ login_form.password }}
+                            <label>Password</label>
+                            <input type="password" name="password" placeholder="Enter password"
+                                autocomplete="current-password">
                         </div>
                         <button type="submit" class="auth-submit-btn">LOG IN</button>
                     </form>
@@ -846,20 +865,29 @@
                     <p class="auth-subtitle">Join the battlefield</p>
                     <form action="{% url 'register' %}" method="post">
                         {% csrf_token %}
-                        <div class="auth-field">
-                            {{ register_form.username }}
-                        </div>
-                        <div class="auth-field">
-                            {{ register_form.email }}
-                        </div>
-                        <div class="auth-field">
-                            {{ register_form.nickname }}
-                        </div>
-                        <div class="auth-field">
-                            {{ register_form.password1 }}
-                        </div>
-                        <div class="auth-field">
-                            {{ register_form.password2 }}
+                        <div style="max-height: 320px; overflow-y: auto; padding-right: 6px; margin-bottom: 4px;">
+                            <div class="auth-field">
+                                <label>Username</label>
+                                <input type="text" name="username" placeholder="Enter username" autocomplete="off">
+                            </div>
+                            <div class="auth-field">
+                                <label>Email</label>
+                                <input type="email" name="email" placeholder="Enter email address" autocomplete="off">
+                            </div>
+                            <div class="auth-field">
+                                <label>Gamer Nickname</label>
+                                <input type="text" name="nickname" placeholder="Your in-game name" autocomplete="off">
+                            </div>
+                            <div class="auth-field">
+                                <label>Password</label>
+                                <input type="password" name="password1" placeholder="Create a password"
+                                    autocomplete="new-password">
+                            </div>
+                            <div class="auth-field">
+                                <label>Confirm Password</label>
+                                <input type="password" name="password2" placeholder="Repeat your password"
+                                    autocomplete="new-password">
+                            </div>
                         </div>
                         <button type="submit" class="auth-submit-btn">SIGN UP</button>
                     </form>
