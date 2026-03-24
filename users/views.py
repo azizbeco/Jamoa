@@ -13,7 +13,7 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, f"Ro'yxatdan o'tish muvaffaqiyatli! 🚀")
             return redirect('home')
         # On error, redirect back to home with a flag to open modal
