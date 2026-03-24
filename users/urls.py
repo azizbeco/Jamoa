@@ -4,6 +4,13 @@ from . import views
 
 urlpatterns = [
     path('register/', views.register, name='register'),
+    path('api/register/', views.register_user_api if hasattr(views, 'register_user_api') else None, name='api_register'),
+]
+
+from .api_views import register_user
+urlpatterns += [
+    path('api/register/', register_user, name='api_register_v2'), # Temporary name to avoid conflict if any, but better to just use one
+]
     path('login/', auth_views.LoginView.as_view(
         template_name='users/login.html',
         authentication_form=views.CustomAuthenticationForm

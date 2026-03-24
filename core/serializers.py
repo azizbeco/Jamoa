@@ -5,14 +5,14 @@ from users.models import User, Profile
 class GameSerializer(serializers.ModelSerializer):
     class Meta:
         model = Game
-        fields = ['id', 'name', 'slug', 'icon', 'color']
+        fields = ['id', 'name', 'icon', 'color']
 
 class UserSerializer(serializers.ModelSerializer):
     avatar_url = serializers.SerializerMethodField()
 
     class Meta:
         model = User
-        fields = ['id', 'username', 'avatar_url']
+        fields = ['id', 'username', 'avatar_url', 'is_staff']
 
     def get_avatar_url(self, obj):
         # Placeholder for real avatar logic
@@ -33,11 +33,12 @@ class PostSerializer(serializers.ModelSerializer):
 class TeamSerializer(serializers.ModelSerializer):
     leader = UserSerializer(read_only=True)
     game = GameSerializer(read_only=True)
+    members = UserSerializer(many=True, read_only=True)
     members_count = serializers.IntegerField(source='members.count', read_only=True)
 
     class Meta:
         model = Team
-        fields = ['id', 'name', 'slug', 'leader', 'game', 'image', 'description', 'created_at', 'members_count']
+        fields = ['id', 'name', 'slug', 'leader', 'game', 'image', 'description', 'created_at', 'members', 'members_count']
 class TournamentSerializer(serializers.ModelSerializer):
     game = GameSerializer(read_only=True)
 
