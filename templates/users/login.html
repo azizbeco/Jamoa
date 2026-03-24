@@ -4,11 +4,11 @@
 {% block content %}
 <style>
     :root {
-        --accent-glow: rgba(59, 130, 246, 0.5);
-        --glass-bg: rgba(13, 17, 23, 0.7);
-        --glass-border: rgba(255, 255, 255, 0.1);
+        --accent-blue: #3b82f6;
+        --dark-bg: #0d1117;
+        --form-bg: #111827;
+        --border-color: #1f2937;
     }
-
 
     .auth-page-wrapper {
         grid-column: 1 / -1;
@@ -17,100 +17,105 @@
         align-items: center;
         justify-content: center;
         padding: 40px 20px;
-        perspective: 1000px;
+        background-color: #000;
     }
 
-    .auth-card {
+    .gaming-auth-container {
+        display: flex;
         width: 100%;
-        max-width: 450px;
-        background: var(--glass-bg);
-        backdrop-filter: blur(25px) saturate(180%);
-        border: 1px solid var(--glass-border);
-        border-radius: 24px;
-        padding: 48px;
-        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.5);
-        transform-style: preserve-3d;
-        animation: cardAppear 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+        max-width: 1000px;
+        background: var(--dark-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        min-height: 550px;
     }
 
-    @keyframes cardAppear {
-        from {
-            opacity: 0;
-            transform: translateY(30px) rotateX(-5deg);
-        }
+    .gaming-auth-left {
+        flex: 1;
+        background-color: #000;
+        background-image: url('{% static "images/auth_bg.png" %}');
+        background-size: cover;
+        background-position: center;
+        position: relative;
+        display: none;
+    }
 
-        to {
-            opacity: 1;
-            transform: translateY(0) rotateX(0);
+    @media (min-width: 768px) {
+        .gaming-auth-left {
+            display: block;
         }
     }
 
-    .header-section {
-        text-align: center;
+    .gaming-auth-left::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, var(--dark-bg));
+    }
+
+    .gaming-auth-right {
+        flex: 1;
+        padding: 60px 50px;
+        background: var(--dark-bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+    }
+
+    .auth-header {
         margin-bottom: 40px;
     }
 
-    .header-section h1 {
-        font-size: 32px;
-        font-weight: 800;
-        background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
-        margin-bottom: 12px;
-        letter-spacing: -0.5px;
+    .auth-header h1 {
+        font-size: 28px;
+        font-weight: 900;
+        color: white;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
     }
 
-    .header-section p {
+    .auth-header p {
         color: #94a3b8;
-        font-size: 15px;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
     }
 
-    .elite-input-group {
+    .gaming-input-group {
         position: relative;
-        margin-bottom: 32px;
+        margin-bottom: 24px;
     }
 
-    .elite-input-group input {
+    .gaming-input-group input {
         width: 100%;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--glass-border);
-        border-radius: 12px;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
         padding: 16px 20px;
         color: white;
-        font-size: 15px;
+        font-size: 14px;
         transition: all 0.3s ease;
         outline: none;
     }
 
-    .elite-input-group label {
-        position: absolute;
-        left: 20px;
-        top: 50%;
-        transform: translateY(-50%);
+    .gaming-input-group input::placeholder {
         color: #64748b;
-        pointer-events: none;
-        transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
-        font-size: 15px;
-    }
-
-    .elite-input-group input:focus,
-    .elite-input-group input:not(:placeholder-shown) {
-        border-color: var(--accent-blue);
-        background: rgba(59, 130, 246, 0.05);
-        box-shadow: 0 0 20px rgba(59, 130, 246, 0.1);
-    }
-
-    .elite-input-group input:focus+label,
-    .elite-input-group input:not(:placeholder-shown)+label {
-        top: -10px;
-        left: 12px;
+        text-transform: uppercase;
         font-size: 12px;
-        font-weight: 700;
-        color: var(--accent-blue);
-        background: #0d1117;
-        padding: 2px 8px;
-        border-radius: 4px;
+        letter-spacing: 1px;
+    }
+
+    .gaming-input-group input:focus {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
     }
 
     .password-toggle {
@@ -128,76 +133,79 @@
         color: white;
     }
 
-    .submit-btn {
+    .forgot-password {
+        display: block;
+        text-align: left;
+        color: #94a3b8;
+        font-size: 12px;
+        text-transform: uppercase;
+        text-decoration: none;
+        margin-top: -12px;
+        margin-bottom: 30px;
+        letter-spacing: 0.5px;
+        transition: color 0.3s;
+    }
+
+    .forgot-password:hover {
+        color: white;
+    }
+
+    .btn-login {
         width: 100%;
-        position: relative;
         background: var(--accent-blue);
         color: white;
         border: none;
-        padding: 18px;
-        border-radius: 14px;
-        font-weight: 700;
-        font-size: 16px;
-        cursor: pointer;
-        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        overflow: hidden;
-        margin-top: 10px;
-    }
-
-    .submit-btn::before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
-        transition: 0.5s;
-    }
-
-    .submit-btn:hover {
-        transform: translateY(-4px);
-        box-shadow: 0 10px 30px var(--accent-glow);
-    }
-
-    .submit-btn:hover::before {
-        left: 100%;
-    }
-
-    .submit-btn:active {
-        transform: translateY(0);
-    }
-
-    .footer-links {
-        text-align: center;
-        margin-top: 40px;
+        padding: 16px;
+        border-radius: 8px;
+        font-weight: 800;
         font-size: 14px;
-        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        transition: all 0.3s ease;
+        margin-bottom: 16px;
     }
 
-    .footer-links a {
-        color: var(--accent-blue);
-        font-weight: 700;
-        margin-left: 6px;
-        transition: 0.2s;
+    .btn-login:hover {
+        background: #2563eb;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+        transform: translateY(-2px);
     }
 
-    .footer-links a:hover {
-        text-decoration: underline;
-        opacity: 0.8;
+    .btn-signup-outline {
+        display: block;
+        width: 100%;
+        background: transparent;
+        color: white;
+        border: 1px solid var(--accent-blue);
+        padding: 16px;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
+    }
+
+    .btn-signup-outline:hover {
+        background: rgba(59, 130, 246, 0.1);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
     }
 
     .loading-overlay {
         position: absolute;
         top: 0;
         left: 0;
-        width: 100%;
-        height: 100%;
-        background: var(--glass-bg);
+        right: 0;
+        bottom: 0;
+        background: rgba(13, 17, 23, 0.8);
         display: none;
         align-items: center;
         justify-content: center;
-        border-radius: 24px;
         z-index: 100;
     }
 
@@ -218,43 +226,49 @@
 </style>
 
 <div class="auth-page-wrapper">
-    <div class="auth-card" id="login-card">
-        <div class="loading-overlay" id="loading-overlay">
-            <div class="spinner"></div>
-        </div>
+    <div class="gaming-auth-container" id="login-card">
+        <div class="gaming-auth-left"></div>
 
-        <div class="header-section">
-            <h1>Xush kelibsiz!</h1>
-            <p>Sizni jang maydonida kutishmoqda ⚔️</p>
-        </div>
-
-        <form method="post" id="login-form">
-            {% csrf_token %}
-
-            <div class="elite-input-group">
-                <input type="text" name="username" id="id_username" placeholder=" " required>
-                <label for="id_username">Username yoki Email</label>
+        <div class="gaming-auth-right">
+            <div class="loading-overlay" id="loading-overlay">
+                <div class="spinner"></div>
             </div>
 
-            <div class="elite-input-group">
-                <input type="password" name="password" id="id_password" placeholder=" " required>
-                <label for="id_password">Parol</label>
-                <i class="password-toggle" id="toggle-password">
-                    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                        <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
-                        <circle cx="12" cy="12" r="3"></circle>
-                    </svg>
-                </i>
+            <div class="auth-header">
+                <h1>LOG IN ACCOUNT</h1>
+                <p>Welcome back</p>
             </div>
 
-            <button type="submit" class="submit-btn">
-                <span>Jangga kirish</span>
-            </button>
-        </form>
+            <form method="post" id="login-form">
+                {% csrf_token %}
 
-        <div class="footer-links">
-            Hali ro'yxatdan o'tmaganmisiz?
-            <a href="{% url 'register' %}">Yangi akkaunt ochish</a>
+                {% if form.non_field_errors %}
+                <div
+                    style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 24px; color: #ef4444; font-size: 13px; text-align: center;">
+                    {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+                </div>
+                {% endif %}
+
+                <div class="gaming-input-group">
+                    <input type="text" name="username" id="id_username" placeholder="ENTER EMAIL OR USERNAME" required>
+                </div>
+
+                <div class="gaming-input-group">
+                    <input type="password" name="password" id="id_password" placeholder="ENTER PASSWORD" required>
+                    <i class="password-toggle" id="toggle-password">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                            stroke-width="2">
+                            <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                            <circle cx="12" cy="12" r="3"></circle>
+                        </svg>
+                    </i>
+                </div>
+
+                <a href="#" class="forgot-password">FORGOT PASSWORD?</a>
+
+                <button type="submit" class="btn-login">LOG IN</button>
+                <a href="{% url 'register' %}" class="btn-signup-outline">SIGN UP</a>
+            </form>
         </div>
     </div>
 </div>
@@ -272,20 +286,12 @@
             : '<svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"></path><line x1="1" y1="1" x2="23" y2="23"></line></svg>';
     });
 
-    // Form submission animation
+    // Form submission processing
     const loginForm = document.getElementById('login-form');
     const loadingOverlay = document.getElementById('loading-overlay');
 
     loginForm.addEventListener('submit', function () {
         loadingOverlay.style.display = 'flex';
-    });
-
-    // Card orientation on mouse move (3D effect)
-    const card = document.getElementById('login-card');
-    document.addEventListener('mousemove', (e) => {
-        let xAxis = (window.innerWidth / 2 - e.pageX) / 25;
-        let yAxis = (window.innerHeight / 2 - e.pageY) / 25;
-        card.style.transform = `rotateY(${xAxis}deg) rotateX(${yAxis}deg)`;
     });
 </script>
 {% endblock %}

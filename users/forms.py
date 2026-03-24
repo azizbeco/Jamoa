@@ -6,7 +6,6 @@ from core.models import Game
 class CustomUserCreationForm(UserCreationForm):
     email = forms.EmailField(required=True, label="Email", help_text="Bitta email bilan bitta hisob ochish mumkin.")
     nickname = forms.CharField(max_length=50, required=True, label="Gamer Nickname")
-    game_role = forms.ChoiceField(choices=Profile.GAME_ROLE_CHOICES, required=True, label="Asosiy Rol")
     favorite_games = forms.ModelMultipleChoiceField(
         queryset=Game.objects.all(),
         widget=forms.CheckboxSelectMultiple,
@@ -58,7 +57,6 @@ class CustomUserCreationForm(UserCreationForm):
             # Profile is automatically created by signal, but we update it with extra fields
             profile = user.profile
             profile.nickname = self.cleaned_data.get('nickname')
-            profile.game_role = self.cleaned_data.get('game_role')
             profile.favorite_games.set(self.cleaned_data.get('favorite_games'))
             profile.save()
         return user

@@ -1,14 +1,16 @@
-{% extends "base.html" %}
+{% extends 'base.html' %}
 {% load static %}
 
 {% block content %}
 <style>
     :root {
-        --accent-glow: rgba(59, 130, 246, 0.5);
-        --glass-bg: rgba(13, 17, 23, 0.75);
-        --glass-border: rgba(255, 255, 255, 0.1);
+        --accent-blue: #3b82f6;
+        --accent-green: #10b981;
+        --accent-red: #ef4444;
+        --dark-bg: #0d1117;
+        --form-bg: #111827;
+        --border-color: #1f2937;
     }
-
 
     .auth-page-wrapper {
         grid-column: 1 / -1;
@@ -17,133 +19,138 @@
         align-items: center;
         justify-content: center;
         padding: 40px 20px;
+        background-color: #000;
     }
 
-    .auth-card {
-        width: 100%;
-        max-width: 650px;
-        background: var(--glass-bg);
-        backdrop-filter: blur(20px) saturate(180%);
-        border: 1px solid var(--glass-border);
-        border-radius: 28px;
-        padding: 48px;
-        box-shadow: 0 30px 60px -12px rgba(0, 0, 0, 0.5);
-        position: relative;
-        overflow: hidden;
-    }
-
-    .step-indicator {
+    .gaming-auth-container {
         display: flex;
-        justify-content: center;
-        gap: 12px;
-        margin-bottom: 32px;
+        width: 100%;
+        max-width: 1000px;
+        background: var(--dark-bg);
+        border: 1px solid var(--border-color);
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.7);
+        min-height: 600px;
     }
 
-    .step-dot {
-        width: 32px;
-        height: 6px;
-        background: rgba(255, 255, 255, 0.1);
-        border-radius: 3px;
-        transition: 0.4s cubic-bezier(0.16, 1, 0.3, 1);
-    }
-
-    .step-dot.active {
-        background: var(--accent-blue);
-        width: 48px;
-        box-shadow: 0 0 15px var(--accent-glow);
-    }
-
-    .form-step {
+    .gaming-auth-left {
+        flex: 1;
+        background-color: #000;
+        background-image: url('{% static "images/auth_bg.png" %}');
+        background-size: cover;
+        background-position: center;
+        position: relative;
         display: none;
-        animation: stepFade 0.5s ease-out;
     }
 
-    .form-step.active {
-        display: block;
-    }
-
-    @keyframes stepFade {
-        from {
-            opacity: 0;
-            transform: translateX(20px);
-        }
-
-        to {
-            opacity: 1;
-            transform: translateX(0);
+    @media (min-width: 768px) {
+        .gaming-auth-left {
+            display: block;
         }
     }
 
-    .header-section {
-        text-align: center;
-        margin-bottom: 40px;
+    .gaming-auth-left::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(90deg, transparent, var(--dark-bg));
     }
 
-    .header-section h1 {
+    .gaming-auth-right {
+        flex: 1;
+        padding: 40px 50px;
+        background: var(--dark-bg);
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        position: relative;
+        overflow-y: auto;
+    }
+
+    .auth-header {
+        margin-bottom: 30px;
+    }
+
+    .auth-header h1 {
         font-size: 28px;
-        font-weight: 800;
-        margin-bottom: 8px;
+        font-weight: 900;
         color: white;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 8px;
     }
 
-    .header-section p {
+    .auth-header p {
         color: #94a3b8;
         font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        font-weight: 600;
     }
 
-    .elite-input-group {
+    .gaming-input-group {
         position: relative;
-        margin-bottom: 28px;
+        margin-bottom: 20px;
     }
 
-    .elite-input-group label {
-        display: block;
-        font-size: 13px;
-        font-weight: 700;
-        color: #94a3b8;
-        margin-bottom: 10px;
+    .gaming-input-group input {
+        width: 100%;
+        background: transparent;
+        border: 1px solid var(--border-color);
+        border-radius: 8px;
+        padding: 14px 20px;
+        color: white;
+        font-size: 14px;
+        transition: all 0.3s ease;
+        outline: none;
+    }
+
+    .gaming-input-group input::placeholder {
+        color: #64748b;
+        text-transform: uppercase;
+        font-size: 12px;
+        letter-spacing: 1px;
+    }
+
+    .gaming-input-group input:focus {
+        border-color: var(--accent-blue);
+        box-shadow: 0 0 15px rgba(59, 130, 246, 0.1);
+    }
+
+    .error-msg {
+        color: var(--accent-red);
+        font-size: 11px;
+        margin-top: 6px;
+        font-weight: 600;
         text-transform: uppercase;
         letter-spacing: 0.5px;
     }
 
-    .elite-input-group input,
-    .elite-input-group select {
-        width: 100%;
-        background: rgba(255, 255, 255, 0.03);
-        border: 1px solid var(--glass-border);
-        border-radius: 12px;
-        padding: 14px 18px;
-        color: white;
-        transition: 0.3s;
-        outline: none;
-    }
-
-    .elite-input-group input:focus,
-    .elite-input-group select:focus {
-        border-color: var(--accent-blue);
-        background: rgba(59, 130, 246, 0.05);
-    }
-
     .game-grid {
         display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-        gap: 16px;
-        margin-top: 20px;
+        grid-template-columns: repeat(auto-fill, minmax(130px, 1fr));
+        gap: 12px;
+        margin-top: 10px;
+        margin-bottom: 24px;
     }
 
     .game-card {
         background: rgba(255, 255, 255, 0.02);
-        border: 1px solid var(--glass-border);
-        border-radius: 16px;
-        padding: 20px;
+        border: 1px solid var(--border-color);
+        border-radius: 12px;
+        padding: 12px;
         text-align: center;
         cursor: pointer;
-        transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        transition: all 0.3s ease;
         position: relative;
     }
 
     .game-card:hover {
-        transform: translateY(-5px);
+        transform: translateY(-2px);
         background: rgba(255, 255, 255, 0.05);
         border-color: rgba(255, 255, 255, 0.2);
     }
@@ -155,220 +162,193 @@
     }
 
     .game-icon {
-        font-size: 32px;
-        margin-bottom: 12px;
+        font-size: 24px;
+        margin-bottom: 8px;
         display: block;
     }
 
     .game-name {
-        font-size: 14px;
+        font-size: 12px;
         font-weight: 700;
         color: #e2e8f0;
+        text-transform: uppercase;
     }
 
     .game-card input {
         display: none;
     }
 
-    .nav-buttons {
-        display: flex;
-        gap: 16px;
-        margin-top: 40px;
+    .games-label {
+        color: #94a3b8;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        margin-bottom: 12px;
+        display: block;
     }
 
-    .btn-next,
     .btn-submit {
-        flex: 2;
+        width: 100%;
         background: var(--accent-blue);
         color: white;
         border: none;
         padding: 16px;
-        border-radius: 12px;
-        font-weight: 700;
+        border-radius: 8px;
+        font-weight: 800;
+        font-size: 14px;
+        text-transform: uppercase;
+        letter-spacing: 1px;
         cursor: pointer;
-        transition: 0.3s;
+        transition: all 0.3s ease;
+        margin-bottom: 16px;
     }
 
-    .btn-back {
-        flex: 1;
-        background: rgba(255, 255, 255, 0.05);
-        color: #94a3b8;
-        border: 1px solid var(--glass-border);
-        padding: 16px;
-        border-radius: 12px;
-        font-weight: 700;
-        cursor: pointer;
-        transition: 0.3s;
-    }
-
-    .btn-next:hover,
     .btn-submit:hover {
-        box-shadow: 0 0 25px var(--accent-glow);
+        background: #2563eb;
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
         transform: translateY(-2px);
     }
 
-    .footer-links {
-        text-align: center;
-        margin-top: 32px;
+    .btn-login-outline {
+        display: block;
+        width: 100%;
+        background: transparent;
+        color: white;
+        border: 1px solid var(--accent-blue);
+        padding: 16px;
+        border-radius: 8px;
+        font-weight: 800;
         font-size: 14px;
-        color: #64748b;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+        cursor: pointer;
+        text-align: center;
+        text-decoration: none;
+        transition: all 0.3s ease;
+        box-sizing: border-box;
     }
 
-    .footer-links a {
-        color: var(--accent-blue);
-        font-weight: 700;
+    .btn-login-outline:hover {
+        background: rgba(59, 130, 246, 0.1);
+        box-shadow: 0 0 20px rgba(59, 130, 246, 0.2);
     }
 
-    .error-msg {
-        color: var(--accent-red);
-        font-size: 12px;
-        margin-top: 6px;
-        font-weight: 600;
+    .loading-overlay {
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: rgba(13, 17, 23, 0.8);
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 100;
+    }
+
+    .spinner {
+        width: 40px;
+        height: 40px;
+        border: 4px solid rgba(255, 255, 255, 0.1);
+        border-left-color: var(--accent-blue);
+        border-radius: 50%;
+        animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+        to {
+            transform: rotate(360deg);
+        }
+    }
+
+    /* Scrollbar styling for forms if needed */
+    .gaming-auth-right::-webkit-scrollbar {
+        width: 6px;
+    }
+
+    .gaming-auth-right::-webkit-scrollbar-track {
+        background: var(--dark-bg);
+    }
+
+    .gaming-auth-right::-webkit-scrollbar-thumb {
+        background: var(--border-color);
+        border-radius: 3px;
     }
 </style>
 
 <div class="auth-page-wrapper">
-    <div class="auth-card">
-        <div class="step-indicator">
-            <div class="step-dot active" id="dot-1"></div>
-            <div class="step-dot" id="dot-2"></div>
-            <div class="step-dot" id="dot-3"></div>
-        </div>
+    <div class="gaming-auth-container">
+        <div class="gaming-auth-left"></div>
 
-        <div class="header-section">
-            <h1 id="step-title">Gamer Identifikatsiyasi</h1>
-            <p id="step-subtitle">Sizning sarguzashtingiz shu yerdan boshlanadi</p>
-        </div>
+        <div class="gaming-auth-right">
+            <div class="loading-overlay" id="loading-overlay">
+                <div class="spinner"></div>
+            </div>
 
-        {% if form.non_field_errors %}
-        <div
-            style="background: rgba(239, 68, 68, 0.1); border: 1px solid var(--accent-red); padding: 12px; border-radius: 8px; margin-bottom: 24px; color: var(--accent-red); font-size: 13px; text-align: center;">
-            {% for error in form.non_field_errors %}{{ error }}{% endfor %}
-        </div>
-        {% endif %}
+            <div class="auth-header">
+                <h1>CREATE ACCOUNT</h1>
+                <p>Join the battlefield</p>
+            </div>
 
-        <form method="post" id="register-form">
-            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div
+                style="background: rgba(239, 68, 68, 0.1); border: 1px solid #ef4444; padding: 12px; border-radius: 8px; margin-bottom: 24px; color: #ef4444; font-size: 13px; text-align: center;">
+                {% for error in form.non_field_errors %}{{ error }}{% endfor %}
+            </div>
+            {% endif %}
 
-            <!-- Step 1: Account -->
-            <div class="form-step active" id="step-1">
-                <div class="elite-input-group">
-                    <label>Foydalanuvchi nomi (Username)</label>
+            <form method="post" id="register-form">
+                {% csrf_token %}
+
+                <div class="gaming-input-group">
                     <input type="text" name="username" value="{{ form.username.value|default:'' }}" required
-                        placeholder="masalan: xpro_player">
+                        placeholder="ENTER USERNAME">
                     {% if form.username.errors %}<div class="error-msg">{{ form.username.errors.0 }}</div>{% endif %}
                 </div>
-                <div class="elite-input-group">
-                    <label>Email Manzili</label>
+
+                <div class="gaming-input-group">
                     <input type="email" name="email" value="{{ form.email.value|default:'' }}" required
-                        placeholder="gamer@example.com">
+                        placeholder="ENTER EMAIL">
                     {% if form.email.errors %}<div class="error-msg">{{ form.email.errors.0 }}</div>{% endif %}
                 </div>
-                <div class="elite-input-group">
-                    <label>Parol</label>
-                    <input type="password" name="password1" required placeholder="********">
-                    {% if form.password1.errors %}<div class="error-msg">{{ form.password1.errors.0 }}</div>{% endif %}
-                </div>
-                <div class="elite-input-group">
-                    <label>Parolni tasdiqlash</label>
-                    <input type="password" name="password2" required placeholder="********">
-                </div>
-                <div class="nav-buttons">
-                    <button type="button" class="btn-next" onclick="nextStep(2)">Davom etish →</button>
-                </div>
-            </div>
 
-            <!-- Step 2: Specs -->
-            <div class="form-step" id="step-2">
-                <div class="elite-input-group">
-                    <label>Gamer Nickname</label>
+                <div class="gaming-input-group">
                     <input type="text" name="nickname" value="{{ form.nickname.value|default:'' }}" required
-                        placeholder="O'yindagi ismingiz">
+                        placeholder="GAMER NICKNAME">
                     {% if form.nickname.errors %}<div class="error-msg">{{ form.nickname.errors.0 }}</div>{% endif %}
                 </div>
-                <div class="elite-input-group">
-                    <label>Asosiy Rolingiz</label>
-                    <select name="game_role">
-                        {% for value, label in form.fields.game_role.choices %}
-                        <option value="{{ value }}" {% if form.game_role.value==value %}selected{% endif %}>{{ label }}
-                        </option>
-                        {% endfor %}
-                    </select>
-                </div>
-                <div class="nav-buttons">
-                    <button type="button" class="btn-back" onclick="nextStep(1)">Orqaga</button>
-                    <button type="button" class="btn-next" onclick="nextStep(3)">Keyingisi →</button>
-                </div>
-            </div>
 
-            <!-- Step 3: Games -->
-            <div class="form-step" id="step-3">
-                <label class="elite-label"
-                    style="display:block; text-align:center; color:#94a3b8; font-weight:700; margin-bottom:20px;">SEVIMLI
-                    O'YINLARINGIZNI TANLANG</label>
+                <div class="gaming-input-group">
+                    <input type="password" name="password1" required placeholder="ENTER PASSWORD">
+                    {% if form.password1.errors %}<div class="error-msg">{{ form.password1.errors.0 }}</div>{% endif %}
+                </div>
+
+                <div class="gaming-input-group">
+                    <input type="password" name="password2" required placeholder="CONFIRM PASSWORD">
+                </div>
+
+                <label class="games-label">FAVORITE GAMES (OPTIONAL)</label>
                 <div class="game-grid">
                     {% for game in form.favorite_games.field.queryset %}
                     <label class="game-card" id="game-{{ game.id }}">
                         <input type="checkbox" name="favorite_games" value="{{ game.id }}"
-                            onchange="toggleGame(this, 'game-{{ game.id }}')">
+                            onchange="toggleGame(this, 'game-{{ game.id }}')" {% if game.id in form.favorite_games.value
+                            %}checked{% endif %}>
                         <span class="game-icon">{{ game.icon }}</span>
                         <span class="game-name">{{ game.name }}</span>
                     </label>
                     {% endfor %}
                 </div>
-                <div class="nav-buttons">
-                    <button type="button" class="btn-back" onclick="nextStep(2)">Orqaga</button>
-                    <button type="submit" class="btn-submit">Sarguzashtni boshlash!</button>
-                </div>
-            </div>
-        </form>
 
-        <div class="footer-links">
-            Akkauntingiz bormi? <a href="{% url 'login' %}">Kirish</a>
+                <button type="submit" class="btn-submit">SIGN UP</button>
+                <a href="{% url 'login' %}" class="btn-login-outline">LOG IN</a>
+            </form>
         </div>
     </div>
 </div>
 
 <script>
-    let currentStep = 1;
-
-    function nextStep(step) {
-        // Simple validation for step 1
-        if (step === 2 && currentStep === 1) {
-            const username = document.querySelector('input[name="username"]').value;
-            const email = document.querySelector('input[name="email"]').value;
-            const p1 = document.querySelector('input[name="password1"]').value;
-            const p2 = document.querySelector('input[name="password2"]').value;
-
-            if (!username || !email || !p1 || !p2) {
-                alert("Iltimos, barcha maydonlarni to'ldiring.");
-                return;
-            }
-            if (p1 !== p2) {
-                alert("Parollar mos kelmadi.");
-                return;
-            }
-        }
-
-        document.getElementById(`step-${currentStep}`).classList.remove('active');
-        document.getElementById(`dot-${currentStep}`).classList.remove('active');
-
-        currentStep = step;
-
-        document.getElementById(`step-${currentStep}`).classList.add('active');
-        document.getElementById(`dot-${currentStep}`).classList.add('active');
-
-        // Update titles
-        const titles = {
-            1: ["Gamer Identifikatsiyasi", "Sizning sarguzashtingiz shu yerdan boshlanadi"],
-            2: ["Xarakter Xususiyatlari", "Sizning o'yin uslubingiz qanday?"],
-            3: ["O'yin Tanlash", "Qaysi olamlarda jang qilmoqchisiz?"]
-        };
-
-        document.getElementById('step-title').innerText = titles[step][0];
-        document.getElementById('step-subtitle').innerText = titles[step][1];
-    }
-
     function toggleGame(checkbox, cardId) {
         const card = document.getElementById(cardId);
         if (checkbox.checked) {
@@ -377,6 +357,21 @@
             card.classList.remove('selected');
         }
     }
+
+    // Initialize selected state on load
+    document.querySelectorAll('.game-card input[type="checkbox"]').forEach(checkbox => {
+        if (checkbox.checked) {
+            document.getElementById('game-' + checkbox.value).classList.add('selected');
+        }
+    });
+
+    // Form submission processing
+    const registerForm = document.getElementById('register-form');
+    const loadingOverlay = document.getElementById('loading-overlay');
+
+    registerForm.addEventListener('submit', function () {
+        loadingOverlay.style.display = 'flex';
+    });
 
     // Availability Checks
     function debounce(func, timeout = 500) {
@@ -399,7 +394,7 @@
                 if (!data.available) {
                     const error = document.createElement('div');
                     error.className = 'error-msg error-msg-live';
-                    error.innerText = `Bu ${field} band.`;
+                    error.innerText = `THIS ${field.toUpperCase()} IS TAKEN.`;
                     inputElement.parentElement.appendChild(error);
                     inputElement.style.borderColor = 'var(--accent-red)';
                     inputElement.dataset.unavailable = 'true';
@@ -415,10 +410,5 @@
 
     const emailInput = document.querySelector('input[name="email"]');
     emailInput.addEventListener('input', debounce((e) => checkAvailability('email', e.target.value, emailInput)));
-
-    function showToast(msg) {
-        // Simple alert for now, can be replaced with a premium toast UI
-        alert(msg);
-    }
 </script>
 {% endblock %}
