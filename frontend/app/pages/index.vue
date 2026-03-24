@@ -57,15 +57,8 @@ const { data: tournaments } = await useFetch(`${config.public.apiBase}/tournamen
             {{ post.content }}
           </p>
 
-          <div class="flex items-center justify-between pt-6 border-t border-red-900/10">
-            <div class="flex items-center gap-6">
-              <button class="flex items-center gap-2 text-slate-500 hover:text-red-500 transition-all group/btn">
-                <span class="text-lg group-hover/btn:scale-125 transition-transform">❤️</span>
-                <span class="text-[10px] font-black uppercase tracking-widest">Like Post</span>
-              </button>
-            </div>
-            <span class="text-[9px] font-bold text-slate-800 uppercase tracking-widest">Sector J-42</span>
-          </div>
+          <!-- Interaction Layer -->
+          <PostInteraction :post="post" />
         </div>
 
         <div v-if="!posts || posts.length === 0" class="py-20 text-center bg-black/20 rounded-3xl border border-dashed border-red-900/10">
