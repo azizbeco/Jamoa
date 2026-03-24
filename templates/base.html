@@ -290,23 +290,12 @@
             align-items: center;
             justify-content: center;
             z-index: 2000;
-            animation: modalFadeIn 0.3s ease;
+            padding: 20px;
         }
 
         .auth-modal-overlay.active {
             display: flex;
-        }
-
-        .auth-modal-content {
-            background: #0d1117;
-            border: 1px solid var(--border-subtle);
-            border-radius: 24px;
-            width: 100%;
-            max-width: 440px;
-            padding: 40px;
-            position: relative;
-            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.6);
-            animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: modalFadeIn 0.3s ease;
         }
 
         @keyframes modalFadeIn {
@@ -317,6 +306,20 @@
             to {
                 opacity: 1;
             }
+        }
+
+        .auth-modal-content {
+            display: flex;
+            width: 100%;
+            max-width: 900px;
+            max-height: 90vh;
+            background: #0d1117;
+            border: 1px solid #1f2937;
+            border-radius: 16px;
+            overflow: hidden;
+            box-shadow: 0 30px 60px rgba(0, 0, 0, 0.8);
+            animation: modalSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
         }
 
         @keyframes modalSlideUp {
@@ -331,42 +334,95 @@
             }
         }
 
+        /* Left image panel */
+        .auth-modal-image {
+            flex: 1;
+            background-image: url("{% static 'images/auth_bg.png' %}");
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            display: none;
+        }
+
+        @media (min-width: 700px) {
+            .auth-modal-image {
+                display: block;
+            }
+        }
+
+        .auth-modal-image::after {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(90deg, transparent 40%, #0d1117);
+        }
+
+        /* Right form panel */
+        .auth-modal-form-panel {
+            flex: 1;
+            padding: 50px 44px;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .auth-modal-form-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .auth-modal-form-panel::-webkit-scrollbar-track {
+            background: #0d1117;
+        }
+
+        .auth-modal-form-panel::-webkit-scrollbar-thumb {
+            background: #1f2937;
+            border-radius: 3px;
+        }
+
         .auth-modal-close {
             position: absolute;
-            top: 24px;
-            right: 24px;
-            background: none;
+            top: 18px;
+            right: 18px;
+            background: rgba(255, 255, 255, 0.05);
             border: none;
-            color: var(--text-muted);
-            font-size: 28px;
+            color: #94a3b8;
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            font-size: 20px;
             cursor: pointer;
             transition: 0.2s;
             line-height: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 10;
         }
 
         .auth-modal-close:hover {
-            color: var(--accent-red);
-            transform: rotate(90deg);
+            background: rgba(239, 68, 68, 0.2);
+            color: #ef4444;
         }
 
         .auth-modal-tabs {
             display: flex;
-            gap: 20px;
+            gap: 24px;
             margin-bottom: 32px;
-            border-bottom: 1px solid var(--border-subtle);
-            padding-bottom: 12px;
         }
 
         .auth-tab {
             background: none;
             border: none;
-            color: var(--text-muted);
-            font-size: 16px;
+            color: #64748b;
+            font-size: 15px;
             font-weight: 700;
             cursor: pointer;
             transition: 0.2s;
             position: relative;
-            padding: 0 4px;
+            padding-bottom: 8px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
         }
 
         .auth-tab.active {
@@ -376,12 +432,12 @@
         .auth-tab.active::after {
             content: '';
             position: absolute;
-            bottom: -13px;
+            bottom: 0;
             left: 0;
             width: 100%;
-            height: 3px;
+            height: 2px;
             background: var(--accent-blue);
-            border-radius: 3px 3px 0 0;
+            border-radius: 2px;
         }
 
         .auth-section {
@@ -396,7 +452,7 @@
         @keyframes sectionFade {
             from {
                 opacity: 0;
-                transform: translateY(10px);
+                transform: translateY(8px);
             }
 
             to {
@@ -406,37 +462,69 @@
         }
 
         .auth-title {
-            font-size: 22px;
-            font-weight: 800;
-            margin-bottom: 24px;
-            text-align: center;
-            background: linear-gradient(135deg, #fff 0%, #94a3b8 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
+            font-size: 26px;
+            font-weight: 900;
+            color: white;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 6px;
+        }
+
+        .auth-subtitle {
+            font-size: 12px;
+            font-weight: 600;
+            color: #64748b;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 30px;
+        }
+
+        .auth-field {
+            margin-bottom: 18px;
+        }
+
+        .auth-modal-overlay input {
+            background: transparent;
+            border: 1px solid #1f2937;
+            padding: 14px 18px;
+            font-size: 13px;
+            border-radius: 8px;
+            margin-bottom: 0;
+            transition: border-color 0.3s;
+        }
+
+        .auth-modal-overlay input::placeholder {
+            color: #64748b;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 1px;
+        }
+
+        .auth-modal-overlay input:focus {
+            border-color: var(--accent-blue);
+            box-shadow: 0 0 12px rgba(59, 130, 246, 0.1);
         }
 
         .auth-submit-btn {
             width: 100%;
-            margin-top: 20px;
-            padding: 14px;
-            font-size: 15px;
-            letter-spacing: 0.5px;
-        }
-
-        .auth-modal-overlay input {
-            background: rgba(255, 255, 255, 0.03);
-            border: 1px solid var(--border-subtle);
-            padding: 12px 16px;
+            margin-top: 8px;
+            padding: 15px;
             font-size: 14px;
+            font-weight: 800;
+            letter-spacing: 1px;
+            text-transform: uppercase;
+            border-radius: 8px;
+            border: none;
+            cursor: pointer;
+            background: var(--accent-blue);
+            color: white;
+            transition: all 0.3s ease;
         }
 
-        .auth-modal-overlay label {
-            display: block;
-            font-size: 12px;
-            font-weight: 700;
-            color: var(--text-muted);
-            margin-bottom: 6px;
-            text-transform: uppercase;
+        .auth-submit-btn:hover {
+            background: #2563eb;
+            box-shadow: 0 0 20px rgba(59, 130, 246, 0.4);
+            transform: translateY(-2px);
         }
     </style>
 </head>
@@ -723,60 +811,59 @@
 
     <div id="auth-modal" class="auth-modal-overlay">
         <div class="auth-modal-content">
-            <button class="auth-modal-close" onclick="closeAuthModal()">&times;</button>
-            <div class="auth-modal-tabs">
-                <button id="tab-login" class="auth-tab" onclick="switchAuthTab('login')">Login</button>
-                <button id="tab-register" class="auth-tab" onclick="switchAuthTab('register')">Register</button>
-            </div>
 
-            <div id="modal-login-section" class="auth-section">
-                <h2 class="auth-title">Xush kelibsiz!</h2>
-                <form action="{% url 'login' %}" method="post">
-                    {% csrf_token %}
-                    <div style="margin-bottom:20px;">
-                        <label>Username yoki Email</label>
-                        {{ login_form.username }}
-                    </div>
-                    <div style="margin-bottom:20px;">
-                        <label>Parol</label>
-                        {{ login_form.password }}
-                    </div>
-                    <button type="submit" class="btn btn-primary auth-submit-btn">Jangga kirish</button>
-                </form>
-            </div>
+            <!-- Left: Gaming Image -->
+            <div class="auth-modal-image"></div>
 
-            <div id="modal-register-section" class="auth-section">
-                <h2 class="auth-title">Gamer Ro'yxati</h2>
-                <form action="{% url 'register' %}" method="post">
-                    {% csrf_token %}
-                    <div style="max-height: 400px; overflow-y: auto; padding-right: 10px;">
-                        <div style="margin-bottom:16px;">
-                            <label>Username</label>
+            <!-- Right: Form Panel -->
+            <div class="auth-modal-form-panel">
+                <button class="auth-modal-close" onclick="closeAuthModal()">&#x2715;</button>
+
+                <div class="auth-modal-tabs">
+                    <button id="tab-login" class="auth-tab" onclick="switchAuthTab('login')">Login</button>
+                    <button id="tab-register" class="auth-tab" onclick="switchAuthTab('register')">Sign Up</button>
+                </div>
+
+                <!-- Login Section -->
+                <div id="modal-login-section" class="auth-section">
+                    <h2 class="auth-title">LOG IN ACCOUNT</h2>
+                    <p class="auth-subtitle">Welcome back</p>
+                    <form action="{% url 'login' %}" method="post">
+                        {% csrf_token %}
+                        <div class="auth-field">
+                            {{ login_form.username }}
+                        </div>
+                        <div class="auth-field">
+                            {{ login_form.password }}
+                        </div>
+                        <button type="submit" class="auth-submit-btn">LOG IN</button>
+                    </form>
+                </div>
+
+                <!-- Register Section -->
+                <div id="modal-register-section" class="auth-section">
+                    <h2 class="auth-title">CREATE ACCOUNT</h2>
+                    <p class="auth-subtitle">Join the battlefield</p>
+                    <form action="{% url 'register' %}" method="post">
+                        {% csrf_token %}
+                        <div class="auth-field">
                             {{ register_form.username }}
                         </div>
-                        <div style="margin-bottom:16px;">
-                            <label>Email</label>
+                        <div class="auth-field">
                             {{ register_form.email }}
                         </div>
-                        <div style="margin-bottom:16px;">
-                            <label>Parol</label>
-                            {{ register_form.password1 }}
-                        </div>
-                        <div style="margin-bottom:16px;">
-                            <label>Parol tasdiqlash</label>
-                            {{ register_form.password2 }}
-                        </div>
-                        <div style="margin-bottom:16px;">
-                            <label>Nickname</label>
+                        <div class="auth-field">
                             {{ register_form.nickname }}
                         </div>
-                        <div style="margin-bottom:16px;">
-                            <label>Rolingiz</label>
-                            {{ register_form.game_role }}
+                        <div class="auth-field">
+                            {{ register_form.password1 }}
                         </div>
-                    </div>
-                    <button type="submit" class="btn btn-primary auth-submit-btn">Sarguzashtni boshlash</button>
-                </form>
+                        <div class="auth-field">
+                            {{ register_form.password2 }}
+                        </div>
+                        <button type="submit" class="auth-submit-btn">SIGN UP</button>
+                    </form>
+                </div>
             </div>
         </div>
     </div>
