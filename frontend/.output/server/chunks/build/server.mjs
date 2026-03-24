@@ -581,11 +581,20 @@ function getRouteRules(arg) {
     return {};
   }
 }
+const __nuxt_page_meta = {
+  layout: false
+};
 const _routes = [
+  {
+    name: "login",
+    path: "/login",
+    meta: __nuxt_page_meta || {},
+    component: () => import('./login-hJYman1B.mjs')
+  },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-BzblFx06.mjs')
+    component: () => import('./index-UOjqC3-N.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -1058,8 +1067,8 @@ const _sfc_main$1 = {
     const statusText = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-Da2SzWF5.mjs'));
-    const _Error = defineAsyncComponent(() => import('./error-500-BEHFWFhF.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-DHAzIRwz.mjs'));
+    const _Error = defineAsyncComponent(() => import('./error-500-DxVQGnw3.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
       _push(ssrRenderComponent(unref(ErrorTemplate), mergeProps({ status: unref(status), statusText: unref(statusText), statusCode: unref(status), statusMessage: unref(statusText), description: unref(description), stack: unref(stack) }, _attrs), null, _parent));
@@ -1140,5 +1149,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { _export_sfc as _, useNuxtApp as a, useRuntimeConfig as b, nuxtLinkDefaults as c, asyncDataDefaults as d, entry_default as default, encodeRoutePath as e, createError as f, fetchDefaults as g, navigateTo as n, resolveRouteObject as r, useRouter as u };
+export { _export_sfc as _, useRuntimeConfig as a, useRouter as b, nuxtLinkDefaults as c, asyncDataDefaults as d, entry_default as default, encodeRoutePath as e, createError as f, fetchDefaults as g, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
 //# sourceMappingURL=server.mjs.map

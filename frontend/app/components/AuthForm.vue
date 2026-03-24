@@ -3,24 +3,32 @@ const props = defineProps<{
   mode: 'login' | 'signup'
 }>()
 
+const { login, signup } = useAuth()
 const email = ref('')
 const password = ref('')
 const username = ref('')
 const loading = ref(false)
 const error = ref('')
 
-const emit = defineEmits(['success'])
+const emit = defineEmits(['success', 'switch'])
 
 const handleSubmit = async () => {
   loading.value = true
   error.value = ''
   
-  // Placeholder for real logic
-  setTimeout(() => {
-    loading.value = false
-    console.log(`${props.mode} attempted for ${email.value}`)
+  let result
+  if (props.mode === 'login') {
+    result = await login(email.value, password.value)
+  } else {
+    result = await signup(username.value, email.value, password.value)
+  }
+
+  loading.value = false
+  if (result.success) {
     emit('success')
-  }, 1000)
+  } else {
+    error.value = result.error
+  }
 }
 </script>
 
@@ -53,6 +61,10 @@ const handleSubmit = async () => {
             {{ mode === 'login' ? 'Login Account' : 'Create Account' }}
           </h3>
           <p class="text-slate-500 text-sm uppercase tracking-tighter">Welcome back, Soldier</p>
+        </div>
+
+        <div v-if="error" class="bg-red-600/10 border border-red-600/50 p-3 rounded text-red-500 text-xs font-bold uppercase animate-shake">
+          {{ error }}
         </div>
 
         <form @submit.prevent="handleSubmit" class="space-y-4">
@@ -124,5 +136,16 @@ input {
 }
 button {
   clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+}
+
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
 }
 </style>

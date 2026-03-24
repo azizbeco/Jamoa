@@ -1,15 +1,19 @@
 <template>
   <div class="min-h-screen bg-slate-950 text-white font-sans">
     <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <header class="mb-12 flex justify-between items-center">
-        <div>
-          <h1 class="text-4xl font-bold bg-gradient-to-r from-indigo-500 to-purple-500 bg-clip-text text-transparent">
-            Jamoa Platform
-          </h1>
-          <p class="text-slate-400 mt-2">Next-gen gaming community</p>
+      <!-- Header -->
+      <header class="flex justify-between items-center mb-12 border-b border-red-900/20 pb-6">
+        <div class="flex items-center space-x-3">
+          <div class="w-10 h-10 bg-red-600 rounded flex items-center justify-center font-black text-xl italic skew-x-[-10deg] shadow-[0_0_15px_rgba(220,38,38,0.4)]">J</div>
+          <div>
+            <h1 class="text-3xl font-black uppercase tracking-tighter italic text-white leading-none">Jamoa</h1>
+            <p class="text-[10px] text-red-500 font-bold uppercase tracking-[.2em] mt-1">Gamer Republic</p>
+          </div>
         </div>
-        <div class="flex gap-4">
-          <button class="px-6 py-2 bg-indigo-600 hover:bg-indigo-700 rounded-lg font-semibold transition-colors">Login</button>
+        <div class="flex items-center space-x-4">
+          <NuxtLink to="/login" class="bg-red-600 hover:bg-red-700 text-white px-6 py-2 rounded font-black uppercase text-xs transition-all shadow-[0_0_15px_rgba(220,38,38,0.3)] hover:shadow-[0_0_20px_rgba(220,38,38,0.5)] skew-x-[-10deg]">
+            <span class="inline-block skew-x-[10deg]">Join / Login</span>
+          </NuxtLink>
         </div>
       </header>
 
