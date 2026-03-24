@@ -4,21 +4,6 @@ from . import views
 
 urlpatterns = [
     path('register/', views.register, name='register'),
-    path('api/register/', views.register_user_api if hasattr(views, 'register_user_api') else None, name='api_register'),
-]
-
-from .api_views import register_user
-urlpatterns += [
-    path('api/register/', register_user, name='api_register_v2'), # Temporary name to avoid conflict if any, but better to just use one
-]
-    path('login/', auth_views.LoginView.as_view(
-        template_name='users/login.html',
-        authentication_form=views.CustomAuthenticationForm
-    ), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='login'), name='logout'),
-    path('profile/', views.profile, name='profile'),
-    path('profile/<str:username>/', views.profile, name='user_profile'),
+    path('api/register/', register_user, name='api_register'),
     path('api/check-availability/', views.check_availability, name='check_availability'),
-    path('password_change/', auth_views.PasswordChangeView.as_view(template_name='users/password_change.html'), name='password_change'),
-    path('password_change/done/', auth_views.PasswordChangeDoneView.as_view(template_name='users/password_change_done.html'), name='password_change_done'),
 ]

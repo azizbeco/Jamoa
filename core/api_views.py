@@ -1,7 +1,7 @@
 from rest_framework import viewsets, permissions, status
 from rest_framework.decorators import action
 from rest_framework.response import Response
-from .models import Game, Post, Team, Tournament
+from .models import Game, Post, Team, Tournament, Like, Comment
 from .serializers import GameSerializer, PostSerializer, TeamSerializer, TournamentSerializer
 
 class GameViewSet(viewsets.ModelViewSet):
@@ -20,6 +20,33 @@ class PostViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(author=self.request.user)
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def like(self, request, pk=None):
+        post = self.get_object()
+        like, created = Like.objects.get_or_create(user=request.user, post=post)
+        if not created:
+            like.delete()
+            return Response({'status': 'unliked', 'likes_count': post.likes_count})
+        return Response({'status': 'liked', 'likes_count': post.likes_count})
+
+    @action(detail=True, methods=['post'], permission_classes=[permissions.IsAuthenticated])
+    def comment(self, request, pk=None):
+        post = self.get_object()
+        text = request.data.get('text')
+        if not text:
+            return Response({'error': 'Comment text required'}, status=status.HTTP_400_BAD_REQUEST)
+        
+        Comment.objects.create(post=post, author=request.user, text=text)
+        return Response({'status': 'commented', 'comments_count': post.comments_count})
+
+    @action(detail=True, methods=['get'])
+    def comments(self, request, pk=None):
+        post = self.get_object()
+        comments = post.comments.all().order_by('-created_at')
+        from .serializers import CommentSerializer
+        serializer = CommentSerializer(comments, many=True)
+        return Response(serializer.data)
 
 class TeamViewSet(viewsets.ModelViewSet):
     queryset = Team.objects.all().order_by('-created_at')
