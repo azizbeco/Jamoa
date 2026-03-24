@@ -581,30 +581,72 @@ function getRouteRules(arg) {
     return {};
   }
 }
+const __nuxt_page_meta$3 = {
+  layout: "admin"
+};
+const __nuxt_page_meta$2 = {
+  layout: "admin"
+};
+const __nuxt_page_meta$1 = {
+  layout: "admin"
+};
 const __nuxt_page_meta = {
   layout: false
 };
 const _routes = [
   {
+    name: "admin-games",
+    path: "/admin/games",
+    meta: __nuxt_page_meta$3 || {},
+    component: () => import('./games-DK-hEVCU.mjs')
+  },
+  {
+    name: "admin-tournaments",
+    path: "/admin/tournaments",
+    meta: __nuxt_page_meta$2 || {},
+    component: () => import('./tournaments-BU1MHL-7.mjs')
+  },
+  {
     name: "teams-id",
     path: "/teams/:id()",
-    component: () => import('./_id_-B74PgWVs.mjs')
+    component: () => import('./_id_-b6VpqqLa.mjs')
+  },
+  {
+    name: "tournaments-id",
+    path: "/tournaments/:id()",
+    component: () => import('./_id_-DgBv8idU.mjs')
+  },
+  {
+    name: "admin",
+    path: "/admin",
+    meta: __nuxt_page_meta$1 || {},
+    component: () => import('./index-DoF0VbXU.mjs')
   },
   {
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./login-DlZUCNr9.mjs')
+    component: () => import('./login-DacJ51JF.mjs')
+  },
+  {
+    name: "profile",
+    path: "/profile",
+    component: () => import('./profile-CrG1Ho1w.mjs')
   },
   {
     name: "teams",
     path: "/teams",
-    component: () => import('./index-CNTrgMV6.mjs')
+    component: () => import('./index-DanKOQDJ.mjs')
+  },
+  {
+    name: "tournaments",
+    path: "/tournaments",
+    component: () => import('./index-oHNFJ-S5.mjs')
   },
   {
     name: "index",
     path: "/",
-    component: () => import('./index-CT4_gCxi.mjs')
+    component: () => import('./index-BYCI7dqz.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
@@ -1077,7 +1119,7 @@ const _sfc_main$1 = {
     const statusText = _error.statusMessage ?? (is404 ? "Page Not Found" : "Internal Server Error");
     const description = _error.message || _error.toString();
     const stack = void 0;
-    const _Error404 = defineAsyncComponent(() => import('./error-404-BuY5YAuZ.mjs'));
+    const _Error404 = defineAsyncComponent(() => import('./error-404-CpMxJKd-.mjs'));
     const _Error = defineAsyncComponent(() => import('./error-500-DxVQGnw3.mjs'));
     const ErrorTemplate = is404 ? _Error404 : _Error;
     return (_ctx, _push, _parent, _attrs) => {
@@ -1159,5 +1201,5 @@ let entry;
 }
 const entry_default = ((ssrContext) => entry(ssrContext));
 
-export { _export_sfc as _, useRoute as a, useRuntimeConfig as b, useRouter as c, nuxtLinkDefaults as d, entry_default as default, encodeRoutePath as e, asyncDataDefaults as f, createError as g, fetchDefaults as h, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
+export { _export_sfc as _, useRuntimeConfig as a, useRoute as b, useRouter as c, nuxtLinkDefaults as d, entry_default as default, encodeRoutePath as e, asyncDataDefaults as f, createError as g, fetchDefaults as h, navigateTo as n, resolveRouteObject as r, useNuxtApp as u };
 //# sourceMappingURL=server.mjs.map
