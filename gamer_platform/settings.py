@@ -151,3 +151,6 @@ AUTHENTICATION_BACKENDS = [
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
+# Allow WhiteNoise to serve files from STATICFILES_DIRS without collectstatic
+WHITENOISE_USE_FINDERS = True
+
