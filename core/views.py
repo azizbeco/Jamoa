@@ -9,8 +9,10 @@ from .forms import PostForm, TeamForm
 User = get_user_model()
 
 def home(request):
-    game_id = request.GET.get('game', None)
-    show_all = request.GET.get('all_games', False)
+    """
+    Main entry point for the Jamoa API.
+    For the frontend, please refer to the Nuxt.js application.
+    """
     
     posts = Post.objects.all().prefetch_related('likes', 'comments')
     current_game = None
@@ -60,18 +62,18 @@ def home(request):
         notifications = Notification.objects.filter(recipient=request.user, is_read=False)[:5]
         unread_count = Notification.objects.filter(recipient=request.user, is_read=False).count()
 
-    context = {
-        'posts': posts,
-        'form': form,
-        'tournaments': tournaments,
-        'display_games': display_games,
-        'all_games_count': Game.objects.count(),
-        'current_game': current_game,
-        'show_all': show_all,
-        'notifications': notifications,
-        'unread_count': unread_count
-    }
-    return render(request, 'core/home.html', context)
+    return JsonResponse({
+        "name": "Jamoa API",
+        "version": "2.0",
+        "status": "Running",
+        "endpoints": {
+            "games": "/api/games/",
+            "posts": "/api/posts/",
+            "teams": "/api/teams/",
+            "tournaments": "/api/tournaments/",
+            "auth": "/api/token/"
+        }
+    })
 
 @login_required
 def like_post(request, post_id):
