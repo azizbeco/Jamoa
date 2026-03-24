@@ -1,8 +1,30 @@
 <script setup lang="ts">
 const config = useRuntimeConfig()
 const { formatDate } = useUtils()
+const { notify } = useNotifications()
+const { token } = useAuth()
 
-const { data: tournaments, pending, error } = await useFetch(`${config.public.apiBase}/tournaments/`)
+const { data: tournaments, pending, error, refresh } = await useFetch(`${config.public.apiBase}/tournaments/`)
+
+const registerForTournament = async (id: number) => {
+  if (!token.value) {
+    notify('Authentication Required: Please login to enlist.', 'error')
+    return
+  }
+  
+  try {
+    const res = await $fetch(`${config.public.apiBase}/tournaments/${id}/register/`, {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${token.value}`
+      }
+    })
+    notify(res.detail || 'Enlistment confirmed!', 'success')
+    refresh()
+  } catch (err: any) {
+    notify(err.data?.detail || 'Registration Failed: Check eligibility.', 'error')
+  }
+}
 </script>
 
 <template>
@@ -44,7 +66,8 @@ const { data: tournaments, pending, error } = await useFetch(`${config.public.ap
             <NuxtLink :to="`/tournaments/${t.id}`" class="flex-1 bg-slate-950 border border-red-900/30 hover:border-red-600 text-slate-400 hover:text-white py-3 rounded-xl font-black uppercase text-[10px] text-center transition-all skew-x-[-12deg]">
               <span class="inline-block skew-x-[12deg]">Intel</span>
             </NuxtLink>
-            <button class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-black uppercase text-[10px] transition-all skew-x-[-12deg] shadow-[0_0_20px_rgba(220,38,38,0.3)]">
+            <button @click="registerForTournament(t.id)" 
+                    class="flex-1 bg-red-600 hover:bg-red-700 text-white py-3 rounded-xl font-black uppercase text-[10px] transition-all skew-x-[-12deg] shadow-[0_0_20px_rgba(220,38,38,0.3)] hover:shadow-[0_0_30px_rgba(220,38,38,0.5)] active:scale-95">
               <span class="inline-block skew-x-[12deg]">Enlist</span>
             </button>
           </div>

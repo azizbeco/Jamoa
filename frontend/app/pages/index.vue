@@ -3,8 +3,16 @@ const config = useRuntimeConfig()
 const { formatDate, timeAgo } = useUtils()
 
 const { data: games } = await useFetch(`${config.public.apiBase}/games/`)
-const { data: posts } = await useFetch(`${config.public.apiBase}/posts/`)
+const { data: posts, refresh } = await useFetch(`${config.public.apiBase}/posts/`)
 const { data: tournaments } = await useFetch(`${config.public.apiBase}/tournaments/`)
+
+// Auto-refresh tactical intel every 30 seconds
+onMounted(() => {
+  const timer = setInterval(() => {
+    refresh()
+  }, 30000)
+  onUnmounted(() => clearInterval(timer))
+})
 </script>
 
 <template>

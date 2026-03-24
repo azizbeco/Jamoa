@@ -1,1 +1,0 @@
-import{a}from"./COogve6b.js";const u=()=>{const t=a("notifications",()=>[]),n=i=>{const o=Date.now(),e={id:o,type:"success",...i};t.value.push(e),e.timeout!==0&&setTimeout(()=>{s(o)},e.timeout||5e3)},s=i=>{t.value=t.value.filter(o=>o.id!==i)};return{notifications:t,addNotification:n,removeNotification:s}};export{u};

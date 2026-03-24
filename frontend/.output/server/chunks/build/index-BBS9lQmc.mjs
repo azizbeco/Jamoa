@@ -90,7 +90,7 @@ const _sfc_main = {
       "$J4a6I9i2bx"
       /* nuxt-injected */
     )), __temp = await __temp, __restore(), __temp);
-    const { data: posts } = ([__temp, __restore] = withAsyncContext(() => useFetch(
+    const { data: posts, refresh } = ([__temp, __restore] = withAsyncContext(() => useFetch(
       `${config.public.apiBase}/posts/`,
       "$Yo8vo0NEgg"
       /* nuxt-injected */
@@ -140,4 +140,4 @@ _sfc_main.setup = (props, ctx) => {
 };
 
 export { _sfc_main as default };
-//# sourceMappingURL=index-DqhlBpo9.mjs.map
+//# sourceMappingURL=index-BBS9lQmc.mjs.map
