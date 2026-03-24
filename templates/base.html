@@ -10,21 +10,23 @@
     <style>
         :root {
             --bg-body: #000000;
-            --bg-card: #050505;
-            /* Almost black */
-            --bg-card-hover: #0a0a0a;
+            --bg-card: #080808;
+            --bg-card-hover: #0f0a0a;
 
-            --text-main: #ededed;
-            --text-muted: #737373;
+            --text-main: #f0f0f0;
+            --text-muted: #6b6b6b;
 
+            --accent: #dc2626;
+            --accent-hover: #b91c1c;
+            --accent-glow: rgba(220, 38, 38, 0.25);
             --accent-blue: #3b82f6;
-            --accent-purple: #8b5cf6;
             --accent-green: #10b981;
-            --accent-red: #ef4444;
+            --accent-red: #dc2626;
 
-            --border-subtle: #1f1f1f;
+            --border-subtle: #1a1a1a;
+            --border-red: rgba(220, 38, 38, 0.2);
 
-            --radius: 12px;
+            --radius: 10px;
         }
 
         * {
@@ -34,11 +36,11 @@
         }
 
         body {
-            background-color: #050505;
-            background-image: url("{% static 'images/bg-main.png' %}");
-            background-size: cover;
+            background-color: #000;
+            background-image:
+                radial-gradient(ellipse 80% 50% at 50% -10%, rgba(220, 38, 38, 0.12) 0%, transparent 60%),
+                radial-gradient(ellipse 40% 30% at 90% 80%, rgba(180, 20, 20, 0.06) 0%, transparent 50%);
             background-attachment: fixed;
-            background-position: center;
             color: var(--text-main);
             font-family: 'Inter', system-ui, -apple-system, sans-serif;
             min-height: 100vh;
@@ -53,10 +55,15 @@
             position: sticky;
             top: 0;
             z-index: 100;
-            background: rgba(0, 0, 0, 0.8);
-            backdrop-filter: blur(12px);
-            border-bottom: 1px solid var(--border-subtle);
+            background: rgba(0, 0, 0, 0.92);
+            backdrop-filter: blur(16px);
+            border-bottom: 1px solid #1a0505;
             padding: 12px 0;
+            transition: border-color 0.3s;
+        }
+
+        header:hover {
+            border-bottom-color: rgba(220, 38, 38, 0.3);
         }
 
         .header-content {
@@ -69,22 +76,28 @@
         }
 
         .logo {
-            font-weight: 700;
-            font-size: 18px;
-            color: var(--text-main);
+            font-weight: 800;
+            font-size: 20px;
+            color: white;
             text-decoration: none;
             display: flex;
             align-items: center;
-            gap: 6px;
+            gap: 4px;
+            letter-spacing: -0.5px;
+            transition: opacity 0.2s;
+        }
+
+        .logo:hover {
+            opacity: 0.85;
         }
 
         .logo span {
-            color: var(--accent-blue);
+            color: var(--accent);
         }
 
         nav {
             display: flex;
-            gap: 24px;
+            gap: 6px;
         }
 
         nav a {
@@ -92,12 +105,37 @@
             text-decoration: none;
             font-size: 14px;
             font-weight: 500;
-            transition: color 0.2s;
+            transition: all 0.2s;
+            padding: 6px 12px;
+            border-radius: 6px;
+            position: relative;
         }
 
-        nav a:hover,
+        nav a::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 0;
+            height: 2px;
+            background: var(--accent);
+            border-radius: 2px;
+            transition: width 0.25s ease;
+        }
+
+        nav a:hover {
+            color: white;
+            background: rgba(220, 38, 38, 0.06);
+        }
+
+        nav a:hover::after,
+        nav a.active::after {
+            width: 60%;
+        }
+
         nav a.active {
-            color: var(--text-main);
+            color: white;
         }
 
         /* Layout */
@@ -107,7 +145,6 @@
             padding: 24px 20px;
             display: grid;
             grid-template-columns: 280px 1fr 260px;
-            /* Wider layout with prioritize central feed */
             gap: 48px;
         }
 
@@ -115,12 +152,7 @@
             grid-column: 2;
         }
 
-        .sidebar-left {
-            position: sticky;
-            top: 80px;
-            height: fit-content;
-        }
-
+        .sidebar-left,
         .sidebar-right {
             position: sticky;
             top: 80px;
@@ -141,27 +173,30 @@
 
         /* Components */
         .btn {
-            background: var(--text-main);
-            color: #000;
+            background: var(--accent);
+            color: white;
             border: none;
-            padding: 8px 16px;
-            border-radius: 99px;
-            font-weight: 600;
+            padding: 8px 18px;
+            border-radius: 6px;
+            font-weight: 700;
             font-size: 14px;
             cursor: pointer;
             text-decoration: none;
             display: inline-flex;
             align-items: center;
             justify-content: center;
-            transition: opacity 0.2s;
+            transition: all 0.25s ease;
+            letter-spacing: 0.3px;
         }
 
         .btn:hover {
-            opacity: 0.9;
+            background: var(--accent-hover);
+            box-shadow: 0 0 18px var(--accent-glow);
+            transform: translateY(-1px);
         }
 
         .btn-primary {
-            background: var(--accent-blue);
+            background: var(--accent);
             color: white;
         }
 
@@ -171,13 +206,13 @@
             padding: 6px 12px;
             border-radius: 6px;
             border: none !important;
-            /* Force no border */
             box-shadow: none !important;
+            transition: all 0.2s;
         }
 
         .btn-ghost:hover {
-            background: rgba(255, 255, 255, 0.05);
-            color: var(--text-main);
+            background: rgba(220, 38, 38, 0.08);
+            color: white;
         }
 
         .card {
@@ -186,11 +221,18 @@
             border-radius: var(--radius);
             padding: 20px;
             margin-bottom: 16px;
+            transition: border-color 0.25s, box-shadow 0.25s;
+        }
+
+        .card:hover {
+            border-color: var(--border-red);
+            box-shadow: 0 0 20px rgba(220, 38, 38, 0.05);
         }
 
         .post-card {
             border-bottom: 1px solid var(--border-subtle);
             padding: 24px 0;
+            transition: border-color 0.2s;
         }
 
         .post-card:last-child {
@@ -202,7 +244,7 @@
         h2,
         h3 {
             color: var(--text-main);
-            font-weight: 600;
+            font-weight: 700;
             margin-bottom: 12px;
         }
 
@@ -214,14 +256,15 @@
         a {
             color: var(--text-main);
             text-decoration: none;
+            transition: color 0.2s;
         }
 
         /* Forms */
         input,
         textarea,
         select {
-            background: #0f0f0f;
-            border: 1px solid var(--border-subtle);
+            background: #0c0c0c;
+            border: 1px solid #1e1e1e;
             color: var(--text-main);
             padding: 10px 14px;
             border-radius: 8px;
@@ -229,11 +272,13 @@
             font-family: inherit;
             margin-bottom: 12px;
             outline: none;
+            transition: border-color 0.2s, box-shadow 0.2s;
         }
 
         input:focus,
         textarea:focus {
-            border-color: var(--accent-muted);
+            border-color: var(--accent);
+            box-shadow: 0 0 0 3px rgba(220, 38, 38, 0.08);
         }
 
         /* Utilities */
@@ -273,9 +318,16 @@
             width: 40px;
             height: 40px;
             border-radius: 50%;
-            background: #222;
+            background: #1a0a0a;
             object-fit: cover;
+            border: 2px solid #1a1a1a;
+            transition: border-color 0.2s;
         }
+
+        .avatar:hover {
+            border-color: var(--accent);
+        }
+
 
         /* ========== AUTH MODAL — RED/BLACK GAMING THEME ========== */
         :root {

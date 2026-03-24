@@ -13,11 +13,13 @@ def register(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            messages.success(request, f"Ro'yxatdan o'tish muvaffaqiyatli! Endi o'z hisobingizga kiring. 🚀")
-            return redirect('login')
-    else:
-        form = CustomUserCreationForm()
-    return render(request, 'users/register.html', {'form': form})
+            login(request, user)
+            messages.success(request, f"Ro'yxatdan o'tish muvaffaqiyatli! 🚀")
+            return redirect('home')
+        # On error, redirect back to home with a flag to open modal
+        return redirect('home')
+    # GET: just redirect to home where the modal can be opened
+    return redirect('home')
 
 @login_required
 def profile(request, username=None):
