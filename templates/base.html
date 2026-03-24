@@ -938,6 +938,20 @@
     </header>
 
     <div class="container">
+        {% if messages %}
+        <div class="messages-wrapper" style="margin-bottom: 24px;">
+            {% for message in messages %}
+            <div class="alert alert-{{ message.tags }}"
+                style="background:{% if message.tags == 'error' %}rgba(239, 68, 68, 0.1){% else %}rgba(16, 185, 129, 0.1){% endif %}; 
+                        border:1px solid {% if message.tags == 'error' %}rgba(239, 68, 68, 0.2){% else %}rgba(16, 185, 129, 0.2){% endif %}; 
+                        color:{% if message.tags == 'error' %}#ef4444{% else %}#10b981{% endif %}; 
+                        padding:12px 16px; border-radius:12px; font-size:13px; font-weight:600; margin-bottom:8px; display:flex; align-items:center; gap:12px;">
+                <span style="font-size:16px;">{% if message.tags == 'error' %}⚠️{% else %}✅{% endif %}</span>
+                {{ message }}
+            </div>
+            {% endfor %}
+        </div>
+        {% endif %}
         {% block content %}{% endblock %}
     </div>
 

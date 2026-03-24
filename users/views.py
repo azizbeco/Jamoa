@@ -16,7 +16,10 @@ def register(request):
             login(request, user, backend='django.contrib.auth.backends.ModelBackend')
             messages.success(request, f"Ro'yxatdan o'tish muvaffaqiyatli! 🚀")
             return redirect('home')
-        # On error, redirect back to home with a flag to open modal
+        else:
+            for field, errors in form.errors.items():
+                for error in errors:
+                    messages.error(request, f"{field.title()}: {error}")
         return redirect('home')
     # GET: just redirect to home where the modal can be opened
     return redirect('home')
