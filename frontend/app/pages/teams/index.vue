@@ -10,17 +10,17 @@ const totalTeams = computed(() => teams.value?.length || 0)
     <div class="flex flex-col md:flex-row justify-between items-start md:items-end mb-12 border-b border-red-900/10 pb-10 gap-6">
       <div class="space-y-2">
         <h1 class="text-5xl font-black uppercase tracking-tighter italic text-white leading-none">
-          Gamer <span class="text-red-600">Squads</span>
+          Gamer <span class="text-blue-600">Squads</span>
         </h1>
         <p class="text-slate-500 font-bold uppercase tracking-[.3em] text-sm flex items-center">
-          <span class="w-8 h-[2px] bg-red-600 mr-3"></span>
+          <span class="w-8 h-[2px] bg-blue-600 mr-3"></span>
           Browse Community Teams
         </p>
       </div>
       <div class="flex items-center space-x-6 text-right">
         <div class="flex flex-col">
           <span class="text-3xl font-black text-white leading-none">{{ totalTeams }}</span>
-          <span class="text-[10px] text-red-500 uppercase font-black tracking-widest">Active Squads</span>
+          <span class="text-[10px] text-blue-500 uppercase font-black tracking-widest">Active Squads</span>
         </div>
         <button class="bg-red-600 hover:bg-red-700 text-white px-8 py-3 rounded font-black uppercase text-sm transition-all shadow-[0_0_20px_rgba(220,38,38,0.3)] skew-x-[-12deg]">
           <span class="inline-block skew-x-[12deg]">Create Squad</span>

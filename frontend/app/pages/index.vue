@@ -13,19 +13,19 @@ const { data: tournaments } = await useFetch(`${config.public.apiBase}/tournamen
       <!-- Sidebar -->
       <aside class="lg:col-span-3 space-y-8">
         <div class="bg-black/40 backdrop-blur-md border border-red-900/20 rounded-2xl p-6">
-          <h2 class="text-[10px] font-black uppercase tracking-widest text-red-500 mb-6 flex items-center">
-            <span class="w-4 h-[2px] bg-red-600 mr-2"></span> Top Modules
+          <h2 class="text-[10px] font-black uppercase tracking-widest text-blue-500 mb-6 flex items-center">
+            <span class="w-4 h-[2px] bg-blue-600 mr-2"></span> Top Modules
           </h2>
           <div class="space-y-4">
             <div v-for="game in games" :key="game.id" 
-                 class="flex items-center justify-between p-3 rounded-xl hover:bg-red-600/10 border border-transparent hover:border-red-600/30 cursor-pointer transition-all group">
+                 class="flex items-center justify-between p-3 rounded-xl hover:bg-blue-600/10 border border-transparent hover:border-blue-600/30 cursor-pointer transition-all group">
               <div class="flex items-center gap-3">
-                <span class="w-8 h-8 flex items-center justify-center rounded bg-slate-900 border border-red-900/20 text-lg shadow-inner">
+                <span class="w-8 h-8 flex items-center justify-center rounded bg-slate-900 border border-blue-900/20 text-lg shadow-inner group-hover:border-blue-500/50 transition-all">
                   {{ game.icon || '🎮' }}
                 </span>
                 <span class="text-slate-300 group-hover:text-white font-black uppercase text-[11px] tracking-tighter">{{ game.name }}</span>
               </div>
-              <div class="w-1.5 h-1.5 rounded-full bg-red-900 group-hover:bg-red-600 transition-colors"></div>
+              <div class="w-1.5 h-1.5 rounded-full bg-blue-900 group-hover:bg-blue-500 transition-colors"></div>
             </div>
           </div>
         </div>
@@ -69,12 +69,12 @@ const { data: tournaments } = await useFetch(`${config.public.apiBase}/tournamen
       <!-- Right Insights -->
       <aside class="lg:col-span-3">
         <div class="sticky top-24 space-y-6">
-          <div class="bg-red-600/5 border border-red-600/10 rounded-2xl p-8 relative overflow-hidden group">
-            <div class="absolute -top-10 -right-10 w-32 h-32 bg-red-600/10 blur-3xl group-hover:bg-red-600/20 transition-all"></div>
-            <h3 class="text-[10px] font-black text-red-500 uppercase tracking-widest mb-6">Intelligence</h3>
+          <div class="bg-blue-600/5 border border-blue-600/10 rounded-2xl p-8 relative overflow-hidden group">
+            <div class="absolute -top-10 -right-10 w-32 h-32 bg-blue-600/10 blur-3xl group-hover:bg-blue-600/20 transition-all"></div>
+            <h3 class="text-[10px] font-black text-blue-500 uppercase tracking-widest mb-6">Intelligence</h3>
             <div class="flex flex-col">
               <span class="text-5xl font-black text-white italic tracking-tighter">{{ posts?.length || 0 }}</span>
-              <span class="text-[10px] text-slate-600 uppercase font-bold mt-1">Total Signals</span>
+              <span class="text-[10px] text-blue-600 uppercase font-bold mt-1">Total Signals</span>
             </div>
           </div>
 

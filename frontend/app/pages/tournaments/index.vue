@@ -13,9 +13,9 @@ const { data: tournaments, pending, error } = await useFetch(`${config.public.ap
       <img src="https://images.unsplash.com/photo-1542751371-adc38448a05e?auto=format&fit=crop&q=80&w=2070" class="absolute inset-0 w-full h-full object-cover group-hover:scale-110 transition-transform duration-1000" />
       
       <div class="relative z-20 p-12 md:p-20 text-center space-y-6">
-        <span class="text-red-500 font-black uppercase tracking-[0.5em] text-sm italic">Grand Arena Protocol</span>
-        <h1 class="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-[0_0_30px_rgba(220,38,38,0.5)]">
-          Arena <span class="text-transparent border-t border-b border-red-600 py-1" style="-webkit-text-stroke: 1px white;">Active</span>
+        <span class="text-blue-500 font-black uppercase tracking-[0.5em] text-sm italic">Grand Arena Protocol</span>
+        <h1 class="text-6xl md:text-8xl font-black uppercase italic tracking-tighter text-white drop-shadow-[0_0_30px_rgba(59,130,246,0.3)]">
+          Arena <span class="text-transparent border-t border-b border-blue-600 py-1" style="-webkit-text-stroke: 1px white;">Active</span>
         </h1>
         <p class="text-slate-300 max-w-2xl mx-auto font-medium">Register for tactical operations and prove your unit's supremacy.</p>
       </div>
@@ -36,8 +36,8 @@ const { data: tournaments, pending, error } = await useFetch(`${config.public.ap
           <h3 class="text-2xl font-black uppercase italic tracking-tight text-white group-hover:text-red-500 transition-colors">{{ t.name }}</h3>
           
           <div class="flex justify-between items-center text-[10px] font-bold uppercase tracking-widest text-slate-500">
-            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-red-600 animate-pulse"></span> {{ t.status }}</span>
-            <span>🏆 {{ t.prize_pool || 'Glory' }}</span>
+            <span class="flex items-center gap-2"><span class="w-2 h-2 rounded-full bg-blue-600 animate-pulse"></span> {{ t.status }}</span>
+            <span class="text-blue-500">🏆 {{ t.prize_pool || 'Glory' }}</span>
           </div>
 
           <div class="mt-auto pt-6 flex gap-4">
