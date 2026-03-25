@@ -16,5 +16,14 @@ export default defineNuxtConfig({
   },
   future: {
     compatibilityVersion: 4,
+  },
+  nitro: {
+    // Bundle all node_modules into the output so no separate npm install is needed on the server
+    preset: 'node-server',
+    externals: {
+      traceOptions: {
+        base: './'
+      }
+    }
   }
 })
