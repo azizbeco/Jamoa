@@ -1,0 +1,139 @@
+@import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&family=Inter:wght@400;500;600;700;900&display=swap');
+
+/* ============================================
+   JAMOA — Global Base Styles
+   ============================================ */
+
+:root {
+  --brand-red: 220, 38, 38;
+  --brand-blue: 37, 99, 235;
+  --bg-base: #020208;
+  --bg-card: #0d0d1a;
+  --bg-card-hover: #111122;
+  --border-subtle: rgba(255,255,255,0.05);
+  --border-blue: rgba(37,99,235,0.35);
+  --border-red: rgba(220,38,38,0.35);
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background-color: var(--bg-base);
+  color: #e2e8f0;
+  font-family: 'Inter', 'system-ui', sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  min-height: 100vh;
+}
+
+/* ---- Scrollbars ---- */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+::-webkit-scrollbar-track {
+  background: rgba(0,0,0,0.3);
+}
+::-webkit-scrollbar-thumb {
+  background: rgba(220,38,38,0.35);
+  border-radius: 10px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(220,38,38,0.6);
+}
+
+/* ---- Selection ---- */
+::selection {
+  background: rgba(220,38,38,0.35);
+  color: #fff;
+}
+
+/* ---- Card base ---- */
+.card {
+  background-color: var(--bg-card);
+  border: 1px solid var(--border-subtle);
+  border-radius: 1rem;
+}
+
+/* ---- Glow helpers ---- */
+.glow-red {
+  box-shadow: 0 0 30px rgba(220,38,38,0.15), 0 0 60px rgba(220,38,38,0.05);
+}
+.glow-blue {
+  box-shadow: 0 0 30px rgba(37,99,235,0.15), 0 0 60px rgba(37,99,235,0.05);
+}
+
+/* ---- Scanline overlay for top of cards ---- */
+.card-accent-red::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(220,38,38,0.7), transparent);
+  border-radius: 1rem 1rem 0 0;
+}
+.card-accent-blue::before {
+  content: '';
+  display: block;
+  position: absolute;
+  top: 0; left: 0; right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(37,99,235,0.7), transparent);
+  border-radius: 1rem 1rem 0 0;
+}
+
+/* ---- Animated gradient border ---- */
+@keyframes borderPulse {
+  0%, 100% { opacity: 0.6; }
+  50% { opacity: 1; }
+}
+
+/* ---- Utility: clipped button shape ---- */
+.clip-btn {
+  clip-path: polygon(10px 0%, 100% 0%, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0% 100%, 0% 10px);
+}
+
+/* ---- Typeface accents: headings use Rajdhani ---- */
+h1, h2, h3, h4, .font-head {
+  font-family: 'Rajdhani', 'Inter', sans-serif;
+  font-weight: 700;
+}
+
+/* ---- Page transition ---- */
+.page-enter-active,
+.page-leave-active {
+  transition: opacity 0.25s ease, transform 0.25s ease;
+}
+.page-enter-from {
+  opacity: 0;
+  transform: translateY(8px);
+}
+.page-leave-to {
+  opacity: 0;
+  transform: translateY(-8px);
+}
+
+/* ---- Shake animation (used in AuthForm) ---- */
+@keyframes shake {
+  10%, 90% { transform: translate3d(-1px, 0, 0); }
+  20%, 80% { transform: translate3d(2px, 0, 0); }
+  30%, 50%, 70% { transform: translate3d(-4px, 0, 0); }
+  40%, 60% { transform: translate3d(4px, 0, 0); }
+}
+.animate-shake {
+  animation: shake 0.4s cubic-bezier(.36,.07,.19,.97) both;
+}
+
+/* ---- Status badge colours ---- */
+.status-upcoming { color: #60a5fa; border-color: rgba(96,165,250,0.3); background: rgba(96,165,250,0.08); }
+.status-ongoing  { color: #34d399; border-color: rgba(52,211,153,0.3); background: rgba(52,211,153,0.08); }
+.status-finished { color: #94a3b8; border-color: rgba(148,163,184,0.2); background: rgba(148,163,184,0.05); }

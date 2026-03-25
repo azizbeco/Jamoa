@@ -626,7 +626,7 @@ const _routes = [
     name: "login",
     path: "/login",
     meta: __nuxt_page_meta || {},
-    component: () => import('./login-DacJ51JF.mjs')
+    component: () => import('./login-Bm6cUMt6.mjs')
   },
   {
     name: "profile",
@@ -646,7 +646,7 @@ const _routes = [
   {
     name: "index",
     path: "/",
-    component: () => import('./index-BBS9lQmc.mjs')
+    component: () => import('./index-D_Tuefip.mjs')
   }
 ];
 const ROUTE_KEY_PARENTHESES_RE = /(:\w+)\([^)]+\)/g;
